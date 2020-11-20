@@ -8,6 +8,7 @@ target 'Txclass' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+
   target 'TxclassTests' do
     inherit! :complete
     # Pods for testing
