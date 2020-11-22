@@ -6,9 +6,9 @@ import { screenSize } from './utils/tools';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 // icon
-// import { Ionicons } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // 页面
@@ -17,6 +17,10 @@ import HomePage from './pages/home';
 import DetailPage from './pages/detail';
 import ModalScreen from './pages/ModalScreen';
 import MyPage from './pages/my';
+import DrawerPage from './pages/drawer';
+
+// 安全区域组件 （搭配drawer.JS）
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const indexModel = new IndexModel();
 const { screenWidth, screenHeight } = screenSize;
@@ -24,11 +28,22 @@ const { screenWidth, screenHeight } = screenSize;
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 // fix: Ionicons Unrecognized font family
 Ionicons.loadFont();
 
+// 侧划导航
+function DrawerStackScreen () {
+  return (
+    <Drawer.Navigator initialRouteName="Root">
+      <Drawer.Screen name="Root" component={RootStackScreen} />
+      <Drawer.Screen name="Drawer" component={DrawerPage} />
+    </Drawer.Navigator>
+  )
+}
 
+// tab 导航栏
 function TabStackScreen() {
   return (
     <Tab.Navigator
@@ -54,19 +69,15 @@ function TabStackScreen() {
       <Tab.Screen
         name="Home"
         component={HomePage}
-        options={{
-          headerTitle: props => <Image style={{ width: 150, height: 50 }} source={require('./assets/image/logo.png')} />,
-          // 这种方式声明的button是访问不到HomePage这个页面的instance（实例的）解决方案请看listPage页面
-          headerRight: props => <Button title="按 钮" onPress={() => alert('This is a button!')} color="#fff" />,
-          headerLeft: props => <Button title="left button" onPress={() => alert('left button!')} color="#fff" />
-        }}
         initialParams={{ name: 'name-props' }}
+        options={{ tabBarBadge: 3 }}
       />
       <Tab.Screen name="My" component={MyPage} />
     </Tab.Navigator>
   )
 }
 
+// 主导航栏
 function MainStackScreen() {
   return (
     <MainStack.Navigator
@@ -80,6 +91,17 @@ function MainStackScreen() {
         },
       }}
     >
+      {/* tab 导航 */}
+      <MainStack.Screen
+        name="Tab"
+        options={{
+          headerTitle: props => <Image style={{ width: 150, height: 50 }} source={require('./assets/image/logo.png')} />,
+          // 这种方式声明的button是访问不到HomePage这个页面的instance（实例的）解决方案请看listPage页面
+          headerRight: props => <Button title="按 钮" onPress={() => alert('This is a button!')} color="#fff" />,
+          headerLeft: props => <Button title="left button" onPress={() => alert('left button!')} color="#fff" />
+        }}
+        component={ TabStackScreen }
+      />
       <MainStack.Screen
         name="Detail"
         component={DetailPage}
@@ -112,6 +134,22 @@ function MainStackScreen() {
   );
 }
 
+// 根导航
+function RootStackScreen () {
+  return (
+    <RootStack.Navigator
+      mode="modal"
+    >
+      <RootStack.Screen
+        name="Main"
+        component={MainStackScreen}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen name="MyModal" component={ModalScreen} />
+    </RootStack.Navigator>
+  )
+}
+
 export default class Txclass extends Component {
   constructor(props) {
     super(props);
@@ -139,22 +177,11 @@ export default class Txclass extends Component {
 
   render() {
     return (
-      <NavigationContainer>
-        <RootStack.Navigator
-          mode="modal"
-        >
-          <RootStack.Screen
-            name="Tab"
-            component={TabStackScreen}
-          />
-          <RootStack.Screen
-            name="Main"
-            component={MainStackScreen}
-            options={{ headerShown: false }}
-          />
-          <RootStack.Screen name="MyModal" component={ModalScreen} />
-        </RootStack.Navigator>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          {DrawerStackScreen()}
+        </NavigationContainer>
+      </SafeAreaProvider>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Alert } from 'react-native';
 
 export default class list extends Component {
   constructor(props) {
@@ -21,6 +21,28 @@ export default class list extends Component {
   componentDidMount () {
     this.props.navigation.setOptions({
       headerRight: () => <Button title="add count" onPress={this.addCount}/>
+    })
+    const { navigation } = this.props
+    navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+      Alert.alert(
+        '警告',
+        '是否离开列表页',
+        [
+          {
+            text: '离开',
+            onPress: () => {
+              console.log('离开')
+              navigation.dispatch(e.data.action)
+            }
+          }, {
+            text: '不离开',
+            onPress: () => {
+              console.log('不离开')
+            }
+          }
+        ]
+      )
     })
   }
 

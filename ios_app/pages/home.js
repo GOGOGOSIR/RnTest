@@ -59,6 +59,10 @@ export default class home extends Component {
           onPress={() => navigation.navigate('MyModal')}
           title="Open Modal"
         />
+        <Button
+          onPress={() => navigation.toggleDrawer()}
+          title="toggle Drawer"
+        />
       </View>
     );
   }
