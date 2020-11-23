@@ -175,10 +175,17 @@ export default class Txclass extends Component {
     })
   }
 
+  handleStateChange () {
+    console.log('handleStateChange')
+  }
+
   render() {
     return (
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer onStateChange={this.handleStateChange} documentTitle={{
+          formatter:  (options, route) =>
+          `${options?.title ?? route?.name} - My Cool App`,
+        }}>
           {DrawerStackScreen()}
         </NavigationContainer>
       </SafeAreaProvider>
