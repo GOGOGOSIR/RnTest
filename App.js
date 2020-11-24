@@ -1,11 +1,8 @@
 import React from 'react';
-import Txclass from './ios_app/Txclass';
+import Txclass from './app/Txclass';
 
 const App: () => React$Node = () => {
-  return (
-    <Txclass />
-  )
+  return <Txclass />;
 };
-
 
 export default App;
