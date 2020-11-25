@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {Image, Button} from 'react-native';
 import IndexModel from './models/index';
-// mobx
-import {Provider} from 'mobx-react';
-import MyStore from './stores/myPage/data';
 
 // Navigation
 import {NavigationContainer} from '@react-navigation/native';
@@ -58,7 +55,7 @@ function TabStackScreen() {
               ? 'ios-information-circle'
               : 'ios-information-circle-outline';
           } else if (route.name === 'My') {
-            iconName = focused ? 'ios-list-box' : 'ios-list';
+            iconName = focused ? 'ios-list' : 'ios-list';
           }
 
           // You can return any component that you like here!
@@ -204,16 +201,14 @@ export default class Txclass extends Component {
   render() {
     return (
       <SafeAreaProvider>
-        <Provider MyStore={MyStore}>
-          <NavigationContainer
-            onStateChange={this.handleStateChange}
-            documentTitle={{
-              formatter: (options, route) =>
-                `${options?.title ?? route?.name} - My Cool App`,
-            }}>
-            {DrawerStackScreen()}
-          </NavigationContainer>
-        </Provider>
+        <NavigationContainer
+          onStateChange={this.handleStateChange}
+          documentTitle={{
+            formatter: (options, route) =>
+              `${options?.title ?? route?.name} - My Cool App`,
+          }}>
+          {DrawerStackScreen()}
+        </NavigationContainer>
       </SafeAreaProvider>
     );
   }
