@@ -1,4 +1,4 @@
-import {observable, action, computed, autorun} from 'mobx';
+import {observable, action, computed, autorun, toJS} from 'mobx';
 
 export const listData = observable(
   {
@@ -33,5 +33,5 @@ export default class MyStore {
 
 autorun(() => {
   console.log(listData.list, 'list change');
-  console.log(MyStore.operateBtnText, 'operateBtnText change');
+  console.log(toJS(listData.list), 'operateBtnText change');
 });

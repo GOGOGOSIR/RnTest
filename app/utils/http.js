@@ -1,12 +1,12 @@
 export default class HTTP {
-  fetchGet (options) {
+  fetchGet(options) {
     return fetch(options.url)
-      .then((response) =>  response.json())
-      .then(responseJson => {
+      .then((response) => response.json())
+      .then((responseJson) => {
         options.success(responseJson);
       })
-      .catch(error => {
+      .catch((error) => {
         options.error(error);
-      })
+      });
   }
 }

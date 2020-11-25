@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
-const styles =  StyleSheet.create({
+const styles = StyleSheet.create({
   text: {
     color: 'blue',
-    fontSize: 30
-  }
-})
+    fontSize: 30,
+  },
+});
 
-export default styles
+export default styles;
