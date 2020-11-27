@@ -1,8 +1,8 @@
 import React from 'react';
-import Txclass from './app/Txclass';
+import AppPage from './app/app';
 
 const App: () => React$Node = () => {
-  return <Txclass />;
+  return <AppPage />;
 };
 
 export default App;
