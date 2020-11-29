@@ -9,12 +9,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import {createDrawerNavigator} from '@react-navigation/drawer';
 // icon
-import Ionicons from 'react-native-vector-icons/Ionicons';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from '../../components/Icon/Icon';
 // 页面
 import Routes from '../../router/index';
 
 // fix: Ionicons Unrecognized font family
-Ionicons.loadFont();
+// Ionicons.loadFont();
 
 const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -41,25 +42,20 @@ function TabStackScreen() {
     <TabStack.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
-          let iconName;
+          const iconMap = {
+            LaboratoryPage: 'experiment',
+            ComponentPage: 'comp',
+            PluginPage: 'international',
+            MobxPage: 'data',
+          };
+          const iconName = iconMap[route.name];
 
-          if (route.name === 'Home') {
-            iconName = focused
-              ? 'ios-information-circle'
-              : 'ios-information-circle-outline';
-          } else if (route.name === 'My') {
-            iconName = focused ? 'ios-list' : 'ios-list';
-          } else {
-            iconName = focused ? 'ios-list' : 'ios-list';
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Icon name={iconName} size={size} color={color} />;
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
+        activeTintColor: '#3eaf7c',
+        inactiveTintColor: '#666666',
       }}>
       {TabNavigation.map(({name, screen, initialParams, options}) => {
         return (

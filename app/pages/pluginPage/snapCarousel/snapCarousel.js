@@ -60,7 +60,7 @@ export default class snapCarousel extends PureComponent {
           itemWidth={itemWidth}
           sliderWidth={sliderWidth}
           layout={'stack'}
-          layoutCardOffset={'18'}
+          layoutCardOffset={18}
           data={imageList}
           renderItem={this.renderItem}
           loop={true}
@@ -70,7 +70,7 @@ export default class snapCarousel extends PureComponent {
           itemWidth={itemWidth}
           sliderWidth={sliderWidth}
           layout={'tinder'}
-          layoutCardOffset={'9'}
+          layoutCardOffset={9}
           data={imageList}
           renderItem={this.renderItem}
           loop={true}
@@ -80,7 +80,7 @@ export default class snapCarousel extends PureComponent {
           itemWidth={sliderWidth}
           sliderWidth={sliderWidth}
           layout={'default'}
-          layoutCardOffset={'0'}
+          layoutCardOffset={0}
           inactiveSlideScale={1}
           inactiveSlideOpacity={1}
           data={imageList}

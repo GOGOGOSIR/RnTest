@@ -7,4 +7,4 @@ const IconFontMap = IconFontJson.glyphs.reduce((result, currentItem) => {
   };
 }, {});
 
-export default IconFontMap;
+export default (name) => String.fromCharCode(IconFontMap[name]);

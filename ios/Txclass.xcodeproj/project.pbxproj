@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* TxclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TxclassTests.m */; };
+		0777BB2F25733ECC001D8DBA /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0777BB2E25733ECC001D8DBA /* iconfont.ttf */; };
 		0DA99EE20DE54A2BE876D0F3 /* libPods-Txclass-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4C7BA9A55DD8DDABFF41C /* libPods-Txclass-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -45,6 +46,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TxclassTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TxclassTests.m; sourceTree = "<group>"; };
 		02AC9406A672538BC8E61C5D /* Pods-Txclass-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Txclass-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Txclass-tvOS/Pods-Txclass-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		0777BB2E25733ECC001D8DBA /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		0ACCBECDDFF8AAF951624C60 /* libPods-Txclass-TxclassTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Txclass-TxclassTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Txclass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Txclass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Txclass/AppDelegate.h; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				0777BB2E25733ECC001D8DBA /* iconfont.ttf */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -147,6 +150,13 @@
 				F0B5DF8F75C4AE554B1CC740 /* libPods-Txclass-tvOSTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		644247CFB2A245909D9BD964 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -195,17 +205,8 @@
 				4863F7121E9DF66725C8DCF0 /* Pods-Txclass-tvOSTests.debug.xcconfig */,
 				CDD9297B536430135434EDB5 /* Pods-Txclass-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		644247CFB2A245909D9BD964 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -351,6 +352,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0777BB2F25733ECC001D8DBA /* iconfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

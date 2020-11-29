@@ -6,7 +6,9 @@ import ListPage from '../pages/list';
 import HomePage from '../pages/home';
 import DetailPage from '../pages/detail';
 import ModalScreen from '../pages/ModalScreen';
-import MyPage from '../pages/my';
+import MobxPage from '../pages/mobxPage/mobxPage';
+import ComponentPage from '../pages/componentPage/componentPage';
+import LaboratoryPage from '../pages/laboratoryPage/laboratoryPage';
 import DrawerPage from '../pages/drawer';
 import PluginPage from '../pages/pluginPage/pluginPage';
 import SnapCarouselPage from '../pages/pluginPage/snapCarousel/snapCarousel';
@@ -59,29 +61,46 @@ const Routes = [
     type: 'view',
   },
   // tab组件
+  // {
+  //   name: 'Home',
+  //   screen: HomePage,
+  //   type: 'tab',
+  //   initialParams: {
+  //     name: 'name-props',
+  //   },
+  //   options: {
+  //     tabBarBadge: 3,
+  //     title: '首页',
+  //   },
+  // },
   {
-    name: 'Home',
-    screen: HomePage,
-    type: 'tab',
-    initialParams: {
-      name: 'name-props',
-    },
-    options: {
-      tabBarBadge: 3,
-      title: '首页',
-    },
-  },
-  {
-    name: 'My',
-    screen: MyPage,
+    name: 'LaboratoryPage',
+    screen: LaboratoryPage,
     type: 'tab',
     initialParams: {},
     options: {
-      title: '我的',
+      title: '实验室',
     },
   },
   {
-    name: 'Plugin',
+    name: 'MobxPage',
+    screen: MobxPage,
+    type: 'tab',
+    initialParams: {},
+    options: {
+      title: 'mobx',
+    },
+  },
+  {
+    name: 'ComponentPage',
+    screen: ComponentPage,
+    type: 'tab',
+    options: {
+      title: '自定义组件',
+    },
+  },
+  {
+    name: 'PluginPage',
     screen: PluginPage,
     type: 'tab',
     initialParams: {},

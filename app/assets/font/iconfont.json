@@ -6,8 +6,29 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1635107",
+      "name": "comp",
+      "font_class": "-zujian",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "5659657",
+      "name": "experiment",
+      "font_class": "experiment",
+      "unicode": "e7e4",
+      "unicode_decimal": 59364
+    },
+    {
+      "icon_id": "15953943",
+      "name": "data",
+      "font_class": "data",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
       "icon_id": "4186788",
-      "name": "相机",
+      "name": "camera",
       "font_class": "xiangji",
       "unicode": "e639",
       "unicode_decimal": 58937

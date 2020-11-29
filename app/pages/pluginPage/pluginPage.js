@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
+import Icon from '../../components/Icon/Icon';
 
 export default class pluginPage extends PureComponent {
   constructor(props) {
@@ -7,7 +8,7 @@ export default class pluginPage extends PureComponent {
     this.state = {
       pluginList: [
         {
-          label: 'react-native-snap-carousel',
+          label: 'swiper',
           path: 'snapCarouselPage',
         },
       ],
@@ -28,6 +29,7 @@ export default class pluginPage extends PureComponent {
       <TouchableOpacity onPress={() => this.handleNavigateTo(item.path)}>
         <View style={styles.listItemWrapper}>
           <Text style={styles.listItemText}>{item.label}</Text>
+          <Icon name="arrow_right" />
         </View>
       </TouchableOpacity>
     );
