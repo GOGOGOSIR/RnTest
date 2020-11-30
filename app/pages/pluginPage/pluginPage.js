@@ -9,7 +9,11 @@ export default class pluginPage extends PureComponent {
       pluginList: [
         {
           label: 'swiper',
-          path: 'snapCarouselPage',
+          path: 'SnapCarouselPage',
+        },
+        {
+          label: 'tabView',
+          path: 'TabViewPage',
         },
       ],
     };

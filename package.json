@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/viewpager": "^4.2.1",
     "@react-navigation/bottom-tabs": "^5.10.2",
     "@react-navigation/drawer": "^5.11.4",
     "@react-navigation/native": "^5.8.2",
@@ -24,6 +25,7 @@
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.12.0",
+    "react-native-scrollable-tab-view": "1.0.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^7.1.0"

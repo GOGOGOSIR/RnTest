@@ -35,7 +35,9 @@ export default class snapCarousel extends PureComponent {
   render() {
     const {imageList} = this.state;
     return (
-      <ScrollView style={styles.containerWrapper}>
+      <ScrollView
+        style={styles.containerWrapper}
+        showsVerticalScrollIndicator={false}>
         <Carousel
           itemWidth={itemWidth}
           sliderWidth={sliderWidth}
