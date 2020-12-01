@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {observer} from 'mobx-react';
 import MyStore, {listData} from '../../stores/myPage/data';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const myStrore = new MyStore();
 @observer
@@ -22,18 +23,20 @@ class mobxPage extends Component {
     const {list, count} = listData;
     const {operateBtnText} = myStrore;
     return (
-      <View>
-        <Text style={styles.title}> My Page </Text>
-        {list.map((item) => {
-          return (
-            <View style={styles.listItemWrapper} key={item}>
-              <Text style={styles.listItemText}>{item}</Text>
-            </View>
-          );
-        })}
-        <Text style={styles.text}>列表数量：{count}</Text>
-        <Button title={operateBtnText} onPress={this.handleChangeList} />
-      </View>
+      <SafeAreaView>
+        <View>
+          <Text style={styles.title}> My Page </Text>
+          {list.map((item) => {
+            return (
+              <View style={styles.listItemWrapper} key={item}>
+                <Text style={styles.listItemText}>{item}</Text>
+              </View>
+            );
+          })}
+          <Text style={styles.text}>列表数量：{count}</Text>
+          <Button title={operateBtnText} onPress={this.handleChangeList} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

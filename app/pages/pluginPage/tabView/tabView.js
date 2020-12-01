@@ -52,7 +52,7 @@ export default class tabView extends PureComponent {
   render() {
     return (
       <>
-        <View style={styles.tabWrapper}>
+        {/* <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>DefaultTabBar</Text>
           </View>
@@ -66,8 +66,8 @@ export default class tabView extends PureComponent {
               return <TabList key={tab} tabLabel={tab} />;
             })}
           </ScrollableTabView>
-        </View>
-        <View style={styles.tabWrapper}>
+        </View> */}
+        {/* <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>ScrollableTabBar</Text>
           </View>
@@ -91,7 +91,7 @@ export default class tabView extends PureComponent {
               );
             })}
           </ScrollableTabView>
-        </View>
+        </View> */}
         <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>ScrollableTabBar TabRender</Text>
@@ -125,7 +125,7 @@ export default class tabView extends PureComponent {
             })}
           </ScrollableTabView>
         </View>
-        <View style={styles.tabWrapper}>
+        {/* <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>CurstomTabBar</Text>
           </View>
@@ -138,7 +138,7 @@ export default class tabView extends PureComponent {
               return <TabList key={tab} tabLabel={tab} />;
             })}
           </ScrollableTabView>
-        </View>
+        </View> */}
       </>
     );
   }
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabWrapper: {
-    height: 500,
+    flex: 1,
   },
   titleWrapper: {
     height: 40,

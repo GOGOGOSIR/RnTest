@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import Icon from '../../components/Icon/Icon';
-
+import {SafeAreaView} from 'react-native-safe-area-context';
 export default class pluginPage extends PureComponent {
   constructor(props) {
     super(props);
@@ -42,12 +42,14 @@ export default class pluginPage extends PureComponent {
   render() {
     const {pluginList} = this.state;
     return (
-      <FlatList
-        style={styles.listWrapper}
-        data={pluginList}
-        renderItem={this.renderListItem}
-        keyExtractor={(item) => item.path}
-      />
+      <SafeAreaView>
+        <FlatList
+          style={styles.listWrapper}
+          data={pluginList}
+          renderItem={this.renderListItem}
+          keyExtractor={(item) => item.path}
+        />
+      </SafeAreaView>
     );
   }
 }

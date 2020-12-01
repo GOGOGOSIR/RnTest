@@ -89,27 +89,28 @@ function MainStackScreen() {
       <MainStack.Screen
         name="Tab"
         options={{
-          headerTitle: (props) => (
-            <Image
-              style={{width: 150, height: 50}}
-              source={require('../../assets/image/logo.png')}
-            />
-          ),
-          // 这种方式声明的button是访问不到HomePage这个页面的instance（实例的）解决方案请看listPage页面
-          headerRight: (props) => (
-            <Button
-              title="按 钮"
-              onPress={() => alert('This is a button!')}
-              color="#fff"
-            />
-          ),
-          headerLeft: (props) => (
-            <Button
-              title="left button"
-              onPress={() => alert('left button!')}
-              color="#fff"
-            />
-          ),
+          header: () => null,
+          // headerTitle: (props) => (
+          //   <Image
+          //     style={{width: 150, height: 50}}
+          //     source={require('../../assets/image/logo.png')}
+          //   />
+          // ),
+          // 这种方式声明的button是访问不到HomePage这个页面的instance（实例的）解决方案请看listPage页面er
+          // headerRight: (props) => (
+          //   <Button
+          //     title="按 钮"
+          //     onPress={() => alert('This is a button!')}
+          //     color="#fff"
+          //   />
+          // ),
+          // headerLeft: (props) => (
+          //   <Button
+          //     title="left button"
+          //     onPress={() => alert('left button!')}
+          //     color="#fff"
+          //   />
+          // ),
         }}
         component={TabStackScreen}
       />
