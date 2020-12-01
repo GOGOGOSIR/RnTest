@@ -56,6 +56,12 @@ function TabStackScreen() {
       tabBarOptions={{
         activeTintColor: '#3eaf7c',
         inactiveTintColor: '#666666',
+        labelStyle: {
+          marginBottom: 5,
+        },
+      }}
+      sceneContainerStyle={{
+        backgroundColor: '#fff',
       }}>
       {TabNavigation.map(({name, screen, initialParams, options}) => {
         return (
