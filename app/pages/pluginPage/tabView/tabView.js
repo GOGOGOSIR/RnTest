@@ -67,7 +67,7 @@ export default class tabView extends PureComponent {
             })}
           </ScrollableTabView>
         </View> */}
-        {/* <View style={styles.tabWrapper}>
+        <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>ScrollableTabBar</Text>
           </View>
@@ -91,8 +91,8 @@ export default class tabView extends PureComponent {
               );
             })}
           </ScrollableTabView>
-        </View> */}
-        <View style={styles.tabWrapper}>
+        </View>
+        {/* <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>ScrollableTabBar TabRender</Text>
           </View>
@@ -113,7 +113,6 @@ export default class tabView extends PureComponent {
                 }}
               />
             )}>
-            {/* tabBarUnderlineStyle={styles.tabLineStyle} */}
             {tabList.map((tab, i) => {
               return (
                 <TabList
@@ -124,7 +123,7 @@ export default class tabView extends PureComponent {
               );
             })}
           </ScrollableTabView>
-        </View>
+        </View> */}
         {/* <View style={styles.tabWrapper}>
           <View style={styles.titleWrapper}>
             <Text>CurstomTabBar</Text>

@@ -1,9 +1,11 @@
 import {StyleSheet} from 'react-native';
 
 const commonStyles = StyleSheet.create({
+  fullScreen: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#EFEFF3',
   },
 });
 

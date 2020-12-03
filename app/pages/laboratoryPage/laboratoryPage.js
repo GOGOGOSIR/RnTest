@@ -1,18 +1,21 @@
-import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import React, {PureComponent} from 'react';
+import {Text, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-export default class laboratoryPage extends Component {
+import commonStyles from '../../styles/commonStyles';
+export default class laboratoryPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
+  componentDidMount() {
+    console.log();
+  }
   render() {
     return (
-      <SafeAreaView>
-        <View>
+      <SafeAreaView style={commonStyles.fullScreen}>
+        <ScrollView style={commonStyles.container}>
           <Text> laboratoryPage </Text>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
