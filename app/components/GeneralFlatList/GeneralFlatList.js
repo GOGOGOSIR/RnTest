@@ -40,23 +40,14 @@ class GeneralFlatList extends PureComponent {
       isOver: false, // 是否到底了
       refreshStatus: false, // 刷新的状态
     };
-    this.wrapperStyle = {
-      ...DEFAULT_WRAPPER_STYLE,
-      ...props.wrapperStyle,
-    };
-    this.flatListProps = {
-      horizontal: false,
-      onEndReachedThreshold: 0.1,
-      // ListFooterComponent: <ListFooter />,
-      showsVerticalScrollIndicator: false,
-      ...props.flatListConfig,
-    };
+
     this.loadMore = this.loadMore.bind(this);
     this.refreshList = this.refreshList.bind(this);
   }
 
   componentDidMount() {
     console.log('GeneralFlatList componentDidMount');
+    this.initFlatList();
     this.getRenderList();
   }
 
@@ -65,6 +56,21 @@ class GeneralFlatList extends PureComponent {
       console.log('GeneralFlatList componentDidUpdate');
       this.getRenderList();
     }
+  }
+
+  // 初始化FlatList的一些配置
+  initFlatList() {
+    this.wrapperStyle = {
+      ...DEFAULT_WRAPPER_STYLE,
+      ...this.props.wrapperStyle,
+    };
+    this.flatListProps = {
+      horizontal: false,
+      onEndReachedThreshold: 0.1,
+      ListFooterComponent: this.props.pullUp ? <ListFooter /> : null,
+      showsVerticalScrollIndicator: false,
+      ...this.props.flatListConfig,
+    };
   }
 
   // 获取渲染数据
@@ -120,8 +126,8 @@ class GeneralFlatList extends PureComponent {
       refreshing: refreshStatus,
       keyExtractor: (item, index) => index.toString(),
     };
-    pullDown && (listProps.onEndReached = this.loadMore);
-    pullUp && (listProps.onRefresh = this.refreshList);
+    pullUp && (listProps.onEndReached = this.loadMore);
+    pullDown && (listProps.onRefresh = this.refreshList);
 
     return (
       <View style={[styles.listWrapper, wrapperStyle]}>

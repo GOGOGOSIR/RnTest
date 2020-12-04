@@ -9,6 +9,7 @@ export default class tabList extends Component {
       list: [],
     };
     this.renderListItem = this.renderListItem.bind(this);
+    this.mockAsyncData = this.mockAsyncData.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +29,22 @@ export default class tabList extends Component {
     });
   }
 
+  // mock async data
+  mockAsyncData() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const result = [];
+        const {tabLabel} = this.props;
+        for (let i = 0; i < 20; i++) {
+          result.push({
+            label: `${tabLabel}${i + 1}`,
+          });
+        }
+        return result;
+      }, 500);
+    });
+  }
+
   renderListItem({item}) {
     return (
       <View style={styles.listItemWrapper}>
@@ -40,14 +57,12 @@ export default class tabList extends Component {
     const {list} = this.state;
     console.log(list);
     return (
-      // <FlatList
-      //   style={styles.listWrapper}
-      //   data={list}
-      //   renderItem={this.renderListItem}
-      //   keyExtractor={(item) => item.label}
-      //   showsVerticalScrollIndicator={false}
-      // />
-      <GeneralFlatList renderData={list} renderItem={this.renderListItem} />
+      <GeneralFlatList
+        renderData={this.mockAsyncData}
+        renderItem={this.renderListItem}
+        pullUp={false}
+        pullDown={false}
+      />
     );
   }
 }
