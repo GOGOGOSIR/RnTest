@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native';
 import IconFontMap from './fontMap';
-import {String, Number} from '../../utils/type/propTypes';
+import PropTypes from 'prop-types';
 
 const Icon = (props) => {
   const {name, size, color, styleOptions, ...othersProps} = props;
@@ -16,15 +16,15 @@ const Icon = (props) => {
   return <Text {...othersProps}>{unicode_decimal}</Text>;
 };
 
+Icon.propTypes = {
+  name: PropTypes.string,
+  size: PropTypes.number,
+  color: PropTypes.string,
+};
 Icon.defaultProps = {
   size: 18,
   color: '#333',
   styleOptions: {},
-};
-Icon.propTypes = {
-  name: String,
-  size: Number,
-  color: String,
 };
 
 export default Icon;

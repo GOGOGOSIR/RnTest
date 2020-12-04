@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {View, Text, StyleSheet, Button, SafeAreaView} from 'react-native';
 import {observer} from 'mobx-react';
 import MyStore, {listData} from '../../stores/myPage/data';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const myStrore = new MyStore();
 @observer

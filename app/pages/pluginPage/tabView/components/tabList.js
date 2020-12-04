@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import GeneralFlatList from '../../../../components/GeneralFlatList/GeneralFlatList';
 
 export default class tabList extends Component {
   constructor(props) {
@@ -37,14 +38,16 @@ export default class tabList extends Component {
 
   render() {
     const {list} = this.state;
+    console.log(list);
     return (
-      <FlatList
-        style={styles.listWrapper}
-        data={list}
-        renderItem={this.renderListItem}
-        keyExtractor={(item) => item.label}
-        showsVerticalScrollIndicator={false}
-      />
+      // <FlatList
+      //   style={styles.listWrapper}
+      //   data={list}
+      //   renderItem={this.renderListItem}
+      //   keyExtractor={(item) => item.label}
+      //   showsVerticalScrollIndicator={false}
+      // />
+      <GeneralFlatList renderData={list} renderItem={this.renderListItem} />
     );
   }
 }

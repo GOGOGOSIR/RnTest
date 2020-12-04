@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Text, ScrollView} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Text, ScrollView, SafeAreaView} from 'react-native';
 import commonStyles from '../../styles/commonStyles';
 export default class laboratoryPage extends PureComponent {
   constructor(props) {
@@ -12,9 +11,9 @@ export default class laboratoryPage extends PureComponent {
   }
   render() {
     return (
-      <SafeAreaView style={commonStyles.fullScreen}>
-        <ScrollView style={commonStyles.container}>
-          <Text> laboratoryPage </Text>
+      <SafeAreaView style={commonStyles.safeAreaView}>
+        <ScrollView>
+          <Text> laboratoryPage11 </Text>
         </ScrollView>
       </SafeAreaView>
     );

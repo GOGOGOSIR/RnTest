@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 const commonStyles = StyleSheet.create({
-  fullScreen: {
+  safeAreaView: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,

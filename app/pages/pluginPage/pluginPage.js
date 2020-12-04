@@ -1,7 +1,13 @@
 import React, {PureComponent} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
 import Icon from '../../components/Icon/Icon';
-import {SafeAreaView} from 'react-native-safe-area-context';
 export default class pluginPage extends PureComponent {
   constructor(props) {
     super(props);
