@@ -1,11 +1,5 @@
 import React, {PureComponent} from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-  InteractionManager,
-} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import {validateType} from '../../utils/validate/tools';
 import StatusView from './StatusView';

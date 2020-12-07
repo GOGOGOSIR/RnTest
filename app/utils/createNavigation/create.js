@@ -43,7 +43,8 @@ function TabStackScreen() {
       }}
       sceneContainerStyle={{
         backgroundColor: '#fff',
-      }}>
+      }}
+      backBehavior="none">
       {TabNavigation.map(({name, screen, initialParams, options}) => {
         return (
           <TabStack.Screen
