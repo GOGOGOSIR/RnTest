@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {BackHandler, Platform, ToastAndroid} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import AppNavigation from './utils/createNavigation/index';
 export default class Txclass extends PureComponent {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class Txclass extends PureComponent {
         this.handleAndroidBack,
       );
     }
+    SplashScreen.hide();
   }
 
   componentWillUnmount() {
