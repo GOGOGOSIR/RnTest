@@ -7,7 +7,12 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean-modules": "rm -rf ./node_modules/react-native-bootsplash/{example,node_modules}",
+    "clean": "rm -rf ./node_modules ./ios/Pods",
+    "pod-update": "cd ./ios && pod update && cd ..",
+    "postinstall": "yarn clean-modules && yarn pod-update",
+    "reinstall": "yarn clean && yarn install"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -21,6 +26,7 @@
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-bootsplash": "^3.1.2",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.9",

@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {BackHandler, Platform, ToastAndroid} from 'react-native';
 import AppNavigation from './utils/createNavigation/index';
+import RNBootSplash from 'react-native-bootsplash';
 export default class Txclass extends PureComponent {
   constructor(props) {
     super(props);
@@ -13,6 +14,7 @@ export default class Txclass extends PureComponent {
         this.handleAndroidBack,
       );
     }
+    RNBootSplash.hide({fade: true});
   }
 
   componentWillUnmount() {
