@@ -4,10 +4,11 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
   SafeAreaView,
 } from 'react-native';
 import Icon from '../../components/Icon/Icon';
+import GeneralFlatList from '../../components/GeneralFlatList/GeneralFlatList';
+import commonStyles from '../../styles/commonStyles';
 export default class pluginPage extends PureComponent {
   constructor(props) {
     super(props);
@@ -47,13 +48,14 @@ export default class pluginPage extends PureComponent {
 
   render() {
     const {pluginList} = this.state;
+    console.log('render', pluginList);
     return (
-      <SafeAreaView>
-        <FlatList
-          style={styles.listWrapper}
-          data={pluginList}
+      <SafeAreaView style={commonStyles.safeAreaView}>
+        <GeneralFlatList
+          renderData={pluginList}
           renderItem={this.renderListItem}
-          keyExtractor={(item) => item.path}
+          pullUp={false}
+          pullDown={false}
         />
       </SafeAreaView>
     );
@@ -61,9 +63,6 @@ export default class pluginPage extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-  listWrapper: {
-    backgroundColor: '#fff',
-  },
   listItemWrapper: {
     flexDirection: 'row',
     paddingLeft: 10,

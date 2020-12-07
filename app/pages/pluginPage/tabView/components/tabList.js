@@ -13,7 +13,7 @@ export default class tabList extends Component {
   }
 
   componentDidMount() {
-    this.getList();
+    // this.getList();
   }
 
   getList() {
@@ -30,17 +30,22 @@ export default class tabList extends Component {
   }
 
   // mock async data
-  mockAsyncData() {
+  mockAsyncData({currentPage}) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const result = [];
         const {tabLabel} = this.props;
-        for (let i = 0; i < 20; i++) {
+        for (let i = (currentPage - 1) * 20; i < currentPage * 20; i++) {
           result.push({
             label: `${tabLabel}${i + 1}`,
           });
         }
-        return result;
+        resolve({
+          data: {
+            result,
+            totalCounts: 100,
+          },
+        });
       }, 500);
     });
   }
@@ -60,8 +65,12 @@ export default class tabList extends Component {
       <GeneralFlatList
         renderData={this.mockAsyncData}
         renderItem={this.renderListItem}
-        pullUp={false}
-        pullDown={false}
+        pullUp={true}
+        pullDown={true}
+        resDataTemplate="data.result"
+        resTotalTemplate="data.totalCounts"
+        loadMoreText="loading..."
+        loadOverText="ending"
       />
     );
   }
