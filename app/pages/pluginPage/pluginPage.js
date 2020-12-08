@@ -22,6 +22,10 @@ export default class pluginPage extends PureComponent {
           label: 'tabView',
           path: 'TabViewPage',
         },
+        {
+          label: 'previewImage',
+          path: 'PreviewImagePage',
+        },
       ],
     };
     this.renderListItem = this.renderListItem.bind(this);
@@ -31,7 +35,6 @@ export default class pluginPage extends PureComponent {
     if (!path) {
       return;
     }
-    console.log(path, 'path');
     this.props.navigation.navigate(path);
   }
 

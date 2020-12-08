@@ -1,13 +1,9 @@
 import React, {PureComponent} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import PropTypes from 'prop-types';
 import {validateType} from '../../utils/validate/tools';
 import StatusView from './StatusView';
 import ListFooter from './ListFooter';
-
-const DEFAULT_WRAPPER_STYLE = {
-  backgroundColor: '#fff',
-};
 class GeneralFlatList extends PureComponent {
   static propTypes = {
     requestParams: PropTypes.object, // 接口的请求参数
@@ -23,6 +19,21 @@ class GeneralFlatList extends PureComponent {
     // customListFooterComponent: PropTypes.elementType, // 自定义上拉加载更多footer组件
     loadMoreText: PropTypes.string, // 上拉加载更多footer组件加载更多的文案
     loadOverText: PropTypes.string, // 上拉加载更多footer组件全部加载完成时的文案
+    pageSize: PropTypes.number, // 每页加载多少条数据
+    refreshControlConfig: PropTypes.shape({
+      // 下拉刷新的样式配置
+      colors: PropTypes.Array,
+      enabled: PropTypes.bool,
+      progressBackgroundColor: PropTypes.string,
+      progressViewOffset: PropTypes.number,
+      size: PropTypes.oneOf([
+        RefreshControl.SIZE.DEFAULT,
+        RefreshControl.SIZE.LARGE,
+      ]),
+      tintColor: PropTypes.string,
+      title: PropTypes.string,
+      titleColor: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -30,6 +41,7 @@ class GeneralFlatList extends PureComponent {
     pullUp: true,
     loadMoreText: '加载中...',
     loadOverText: '到底了~',
+    pageSize: 20,
   };
 
   constructor(props) {
@@ -51,7 +63,6 @@ class GeneralFlatList extends PureComponent {
 
   componentDidMount() {
     console.log('GeneralFlatList componentDidMount');
-    this.initFlatList();
     this.getRenderList();
   }
 
@@ -62,25 +73,6 @@ class GeneralFlatList extends PureComponent {
     }
   }
 
-  // 初始化FlatList的一些配置
-  initFlatList() {
-    const {flatListConfig, requestParams, wrapperStyle} = this.props;
-    this.wrapperStyle = {
-      ...DEFAULT_WRAPPER_STYLE,
-      ...wrapperStyle,
-    };
-    this.flatListProps = {
-      horizontal: false,
-      onEndReachedThreshold: 0.1,
-      showsVerticalScrollIndicator: false,
-      ...flatListConfig,
-    };
-    this.requestParams = {
-      pageSize: 20,
-      ...requestParams,
-    };
-  }
-
   // 获取渲染数据
   async getRenderList() {
     const {
@@ -89,6 +81,8 @@ class GeneralFlatList extends PureComponent {
       resTotalTemplate,
       formateResFunc,
       pullUp,
+      pageSize,
+      requestParams,
     } = this.props;
     let list = [];
     let isReloadData = false;
@@ -97,7 +91,7 @@ class GeneralFlatList extends PureComponent {
       if (this.hasMoreFlag) {
         console.log('currentPage change');
         this.currentPage++;
-        const currentTotal = this.requestParams.pageSize * this.currentPage;
+        const currentTotal = pageSize * this.currentPage;
         this.hasMoreFlag = this.totalCounts > currentTotal;
       }
       this.isLoadMore = false;
@@ -107,7 +101,8 @@ class GeneralFlatList extends PureComponent {
     } else {
       const res = renderData({
         currentPage: this.currentPage,
-        ...this.requestParams,
+        pageSize,
+        ...requestParams,
       });
       if (res.then) {
         try {
@@ -124,7 +119,7 @@ class GeneralFlatList extends PureComponent {
           if (resTotalTemplate && pullUp) {
             this.totalCounts = this.findEffectData(resTotalTemplate, result, 0);
           }
-          list = data;
+          list = Array.isArray(data) ? data : [];
         } catch (err) {
           isReloadData = true;
           console.log('err:', err);
@@ -171,28 +166,44 @@ class GeneralFlatList extends PureComponent {
     );
   }
 
+  // 提供给外部获取数据的
+  getRenderListData() {
+    return JSON.parse(JSON.stringify(this.state.renderList));
+  }
+
   render() {
-    console.log('GeneralFlatList render');
-    const {state, props, wrapperStyle, flatListProps, hasMoreFlag} = this;
+    const {hasMoreFlag} = this;
     const {
       renderItem,
       pullDown,
       pullUp,
       loadMoreText,
       loadOverText,
+      flatListConfig,
+      wrapperStyle,
+      refreshControlConfig,
       // customListFooterComponent,
-    } = props;
-    const {renderList, isReloadData, refreshStatus} = state;
-
+    } = this.props;
+    const {renderList, isReloadData, refreshStatus} = this.state;
     // flatList的props
     const listProps = {
-      ...flatListProps,
-      refreshing: refreshStatus,
+      horizontal: false,
+      onEndReachedThreshold: 0.1,
+      showsVerticalScrollIndicator: false,
       keyExtractor: (item, index) => index.toString(),
+      ...flatListConfig,
     };
     pullUp && (listProps.onEndReached = this.loadMore);
-    pullDown && (listProps.onRefresh = this.refreshList);
-    console.log('g-render', renderList);
+    if (pullDown) {
+      listProps.refreshControl = (
+        <RefreshControl
+          refreshing={refreshStatus}
+          onRefresh={this.refreshList}
+          {...refreshControlConfig}
+        />
+      );
+    }
+    console.log('GeneralFlatList render');
     return (
       <View style={[styles.listWrapper, wrapperStyle]}>
         {renderList.length ? (
@@ -221,6 +232,7 @@ class GeneralFlatList extends PureComponent {
 const styles = StyleSheet.create({
   listWrapper: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
 });
 

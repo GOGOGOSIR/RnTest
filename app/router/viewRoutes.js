@@ -1,5 +1,6 @@
 import SnapCarouselPage from '../pages/pluginPage/snapCarousel/snapCarousel';
 import TabViewPage from '../pages/pluginPage/tabView/tabView';
+import PreviewImagePage from '../pages/pluginPage/previewImage/previewImage';
 
 const viewRoutes = [
   {
@@ -10,6 +11,11 @@ const viewRoutes = [
   {
     name: 'TabViewPage',
     screen: TabViewPage,
+    type: 'view',
+  },
+  {
+    name: 'PreviewImagePage',
+    screen: PreviewImagePage,
     type: 'view',
   },
 ];
