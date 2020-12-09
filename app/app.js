@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
-import {BackHandler, Platform, ToastAndroid} from 'react-native';
+import {BackHandler, Platform, ToastAndroid, Dimensions} from 'react-native';
 import AppNavigation from './utils/createNavigation/index';
 import RNBootSplash from 'react-native-bootsplash';
+import {setAsyncStorage} from './utils/storage/index';
 export default class Txclass extends PureComponent {
   constructor(props) {
     super(props);
@@ -15,12 +16,19 @@ export default class Txclass extends PureComponent {
       );
     }
     RNBootSplash.hide({fade: true});
+    this.initStorage();
   }
 
   componentWillUnmount() {
     if (Platform.OS === 'android') {
       this.backHandler && this.backHandler.remove();
     }
+  }
+
+  // 存储一些常用值
+  initStorage() {
+    const systemInfo = Dimensions.get('window');
+    setAsyncStorage('@systemInfo', systemInfo);
   }
 
   handleAndroidBack() {

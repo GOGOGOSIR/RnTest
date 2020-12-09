@@ -5,11 +5,11 @@ import {
   StyleSheet,
   View,
   Image,
-  Dimensions,
 } from 'react-native';
 import PreviewImage from '../../../components/PreviewImage/PreviewImage';
 import GeneralFlatList from '../../../components/GeneralFlatList/GeneralFlatList';
 import commonStyles from '../../../styles/commonStyles';
+import {getAsyncStorage} from '../../../utils/storage/index';
 
 const MOCK_LIST = [
   {
@@ -61,9 +61,11 @@ export default class previewImage extends PureComponent {
 
   // 设置图片的高度
   getItemHeight() {
-    this.windowWidth = Dimensions.get('window').width;
-    this.setState({
-      itemHeight: this.windowWidth / 3,
+    getAsyncStorage('@systemInfo').then((res) => {
+      this.windowWidth = res.width;
+      this.setState({
+        itemHeight: this.windowWidth / 3,
+      });
     });
   }
 

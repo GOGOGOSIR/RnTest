@@ -15,6 +15,7 @@
     "reinstall": "yarn clean && yarn install"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/viewpager": "^4.2.1",
     "@react-navigation/bottom-tabs": "^5.10.2",
@@ -29,6 +30,7 @@
     "react-native-bootsplash": "^3.1.2",
     "react-native-fast-image": "^8.3.4",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-image-crop-picker": "^0.35.1",
     "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.9",

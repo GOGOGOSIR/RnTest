@@ -26,6 +26,10 @@ export default class pluginPage extends PureComponent {
           label: 'previewImage',
           path: 'PreviewImagePage',
         },
+        {
+          label: 'croperImage',
+          path: 'CroperImagePage',
+        },
       ],
     };
     this.renderListItem = this.renderListItem.bind(this);
