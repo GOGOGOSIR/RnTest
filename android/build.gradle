@@ -12,8 +12,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        // fix: react-native-image-croper-picker unexpected element <queries> found in <manifest>. 将3.5.3 -> 4.0.1
-        classpath("com.android.tools.build:gradle:4.0.1")
+        // fix: react-native-image-croper-picker unexpected element <queries> found in <manifest>. 将3.5.3 -> 3.5.4
+        classpath("com.android.tools.build:gradle:3.5.4")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
