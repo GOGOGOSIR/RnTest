@@ -11,7 +11,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import commonStyles from '../../../styles/commonStyles';
 import {getAsyncStorage} from '../../../utils/storage/index';
-// import Video from 'react-native-video';
+import Video from 'react-native-video';
 
 export default class croperImage extends PureComponent {
   constructor(props) {
@@ -19,8 +19,6 @@ export default class croperImage extends PureComponent {
     this.state = {
       image: null,
       images: null,
-      multiple: false,
-      mediaType: 'photo',
       imageStyle: {},
     };
     this.renderAsset = this.renderAsset.bind(this);
@@ -47,6 +45,7 @@ export default class croperImage extends PureComponent {
       type = 'gallery', // 'camera'
     } = config;
     const eventName = type === 'gallery' ? 'openPicker' : 'openCamera';
+    console.log(eventName, mediaType, isCrop, multiple);
     ImagePicker[eventName]({
       width: 300,
       height: 400,
@@ -57,39 +56,39 @@ export default class croperImage extends PureComponent {
       cropperChooseText: '确认',
       cropperCancelText: '取消',
       includeExif: true,
-    }).then((res) => {
-      if (multiple) {
-        const result = res.map((item) => {
-          const {path, width, height, mime} = item;
-          return {
-            uri: path,
-            width: width,
-            height: height,
-            mime: mime,
-          };
-        });
-        this.setState({
-          image: null,
-          images: result,
-          multiple,
-          mediaType,
-        });
-      } else {
-        const {path, width, height, mime} = res;
-        this.setState({
-          image: {
-            uri: path,
-            width: width,
-            height: height,
-            mime: mime,
-          },
-          images: null,
-          multiple,
-          mediaType,
-        });
-      }
-      console.log(multiple);
-    });
+    })
+      .then((res) => {
+        if (multiple) {
+          const result = res.map((item) => {
+            const {path, width, height, mime} = item;
+            return {
+              uri: path,
+              width: width,
+              height: height,
+              mime: mime,
+            };
+          });
+          this.setState({
+            image: null,
+            images: result,
+          });
+        } else {
+          const {path, width, height, mime} = res;
+          this.setState({
+            image: {
+              uri: path,
+              width: width,
+              height: height,
+              mime: mime,
+            },
+            images: null,
+          });
+        }
+        console.log(multiple);
+      })
+      .catch((err) => {
+        console.log('err: ', err);
+      });
   }
 
   renderAsset(media) {
@@ -103,7 +102,7 @@ export default class croperImage extends PureComponent {
   renderVideo(media) {
     return (
       <View style={styles.videoWrapper}>
-        {/* <Video
+        <Video
           source={{uri: media.uri, type: media.mime}}
           style={styles.video}
           rate={1}
@@ -111,10 +110,11 @@ export default class croperImage extends PureComponent {
           volume={1}
           muted={false}
           resizeMode={'cover'}
-          onError={(e) => console.log(e)}
+          onError={(e) => console.log('video err:', e)}
           onLoad={(load) => console.log(load)}
           repeat={true}
-        /> */}
+          controls={true}
+        />
       </View>
     );
   }
@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     flexWrap: 'wrap',
-    // justifyContent: 'space-around',
   },
   btnWrapper: {
     height: 40,
@@ -235,6 +234,7 @@ const styles = StyleSheet.create({
   videoWrapper: {
     height: 300,
     flex: 1,
+    backgroundColor: '#eee',
   },
   video: {
     position: 'absolute',
