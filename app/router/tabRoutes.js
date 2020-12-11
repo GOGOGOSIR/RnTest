@@ -19,7 +19,7 @@ const tabRoutes = [
     type: 'tab',
     initialParams: {},
     options: {
-      title: 'mobx',
+      title: '数据',
     },
   },
   {

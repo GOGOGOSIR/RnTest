@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Button, SafeAreaView} from 'react-native';
 import {observer} from 'mobx-react';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
 import MyStore, {listData} from '../../stores/myPage/data';
 
 const myStrore = new MyStore();
@@ -67,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default mobxPage;
+export default CustomSafeAreaView()(mobxPage);

@@ -1,87 +1,69 @@
 import React, {PureComponent} from 'react';
-import {
-  Text,
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-  Platform,
-  ImageBackground,
-  NativeModules,
-  View,
-  StyleSheet,
-} from 'react-native';
-import commonStyles from '../../styles/commonStyles';
-
-const {StatusBarManager} = NativeModules;
-export default class laboratoryPage extends PureComponent {
+import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
+import GeneralFlatList from '../../components/GeneralFlatList/GeneralFlatList';
+import Icon from '../../components/Icon/Icon';
+class laboratoryPage extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {statusBarHeight: 0};
-  }
-  componentDidMount() {
-    this.initStatusBar();
+    this.state = {
+      list: [
+        {
+          label: '沉浸式页面',
+          path: 'ImmersivePage',
+        },
+      ],
+    };
+    this._renderItem = this._renderItem.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.statusBarHeight !== this.state.statusBarHeight) {
-      console.log('componentDidUpdate', this.state.statusBarHeight);
-    }
+  _renderItem({item}) {
+    return (
+      <TouchableOpacity onPress={() => this.handleNavigateTo(item.path)}>
+        <View style={styles.listItemWrapper}>
+          <Text style={styles.listItemText}>{item.label}</Text>
+          <Icon name="arrow_right" />
+        </View>
+      </TouchableOpacity>
+    );
   }
 
-  initStatusBar() {
-    if (Platform.OS === 'ios') {
-      StatusBarManager.getHeight(({height}) => {
-        this.setState({
-          statusBarHeight: height,
-        });
-      });
-    } else {
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor('transparent');
-      this.setState({
-        statusBarHeight: StatusBar.currentHeight,
-      });
+  handleNavigateTo(path) {
+    if (!path) {
+      return;
     }
+    this.props.navigation.navigate(path);
   }
 
   render() {
-    console.log('render');
+    const {list} = this.state;
     return (
-      <ImageBackground
-        source={require('../../assets/image/swiper/1.jpg')}
-        style={[styles.image]}>
-        <SafeAreaView
-          style={[commonStyles.safeAreaView, {backgroundColor: 'transparent'}]}>
-          <View>
-            <ScrollView style={{marginTop: 0}}>
-              <Text>12345645645</Text>
-            </ScrollView>
-          </View>
-        </SafeAreaView>
-      </ImageBackground>
+      <GeneralFlatList
+        renderData={list}
+        renderItem={this._renderItem}
+        pullUp={false}
+        pullDown={false}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
+  listItemWrapper: {
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingRight: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 45,
+    borderBottomColor: '#eee',
+    borderBottomWidth: 1,
   },
-  image: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    flex: 1,
-    height: 400,
-    resizeMode: 'contain',
-    justifyContent: 'center',
-  },
-  text: {
-    color: 'red',
-    fontSize: 42,
-    fontWeight: 'bold',
-    textAlign: 'center',
+  listItemText: {
+    fontSize: 18,
+    color: '#666666',
+    fontWeight: '500',
   },
 });
+
+export default CustomSafeAreaView()(laboratoryPage);

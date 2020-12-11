@@ -7,9 +7,10 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Icon from '../../components/Icon/Icon';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
 import GeneralFlatList from '../../components/GeneralFlatList/GeneralFlatList';
 import commonStyles from '../../styles/commonStyles';
-export default class pluginPage extends PureComponent {
+class pluginPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,3 +87,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
+export default CustomSafeAreaView()(pluginPage);
