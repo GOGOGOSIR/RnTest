@@ -2,8 +2,10 @@ import React, {PureComponent} from 'react';
 import {Image, ScrollView} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import styles, {sliderWidth, itemWidth} from './style';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 
-export default class snapCarousel extends PureComponent {
+@CustomSafeAreaView()
+class snapCarousel extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,3 +96,4 @@ export default class snapCarousel extends PureComponent {
     );
   }
 }
+export default snapCarousel;

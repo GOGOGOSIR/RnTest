@@ -8,7 +8,9 @@ const tabRoutes = [
     name: 'LaboratoryPage',
     screen: LaboratoryPage,
     type: 'tab',
-    initialParams: {},
+    initialParams: {
+      isBottomTabNavigator: true,
+    },
     options: {
       title: '实验室',
     },
@@ -17,7 +19,9 @@ const tabRoutes = [
     name: 'MobxPage',
     screen: MobxPage,
     type: 'tab',
-    initialParams: {},
+    initialParams: {
+      isBottomTabNavigator: true,
+    },
     options: {
       title: '数据',
     },
@@ -26,6 +30,9 @@ const tabRoutes = [
     name: 'ComponentPage',
     screen: ComponentPage,
     type: 'tab',
+    initialParams: {
+      isBottomTabNavigator: true,
+    },
     options: {
       title: '自定义组件',
     },
@@ -34,7 +41,9 @@ const tabRoutes = [
     name: 'PluginPage',
     screen: PluginPage,
     type: 'tab',
-    initialParams: {},
+    initialParams: {
+      isBottomTabNavigator: true,
+    },
     options: {
       title: '三方插件',
     },

@@ -2,18 +2,18 @@ import React, {PureComponent} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 import commonStyles from '../../../styles/commonStyles';
 import {getAsyncStorage} from '../../../utils/storage/index';
 import Video from 'react-native-video';
-
-export default class croperImage extends PureComponent {
+@CustomSafeAreaView()
+class croperImage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -128,7 +128,7 @@ export default class croperImage extends PureComponent {
   render() {
     const {image, images} = this.state;
     return (
-      <SafeAreaView style={[commonStyles.safeAreaView]}>
+      <>
         <ScrollView style={[commonStyles.container]}>
           <View style={styles.wrapper}>
             {image ? this.renderAsset(image) : null}
@@ -200,7 +200,7 @@ export default class croperImage extends PureComponent {
             </View>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </>
     );
   }
 }
@@ -244,3 +244,5 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+export default croperImage;

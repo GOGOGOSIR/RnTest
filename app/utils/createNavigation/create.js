@@ -4,13 +4,14 @@
  */
 import React from 'react';
 // Navigation
+// 设置过度动画
+import {SlideFromRightIOS} from '@react-navigation/stack/src/TransitionConfigs/TransitionPresets';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from '../../components/Icon/Icon';
 // 页面
 import Routes from '../../router/index';
 
-const MainStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 
@@ -61,11 +62,11 @@ function TabStackScreen() {
 }
 
 // 主导航栏
-function MainStackScreen() {
+export function RootStackScreen() {
   return (
-    <MainStack.Navigator>
+    <RootStack.Navigator>
       {/* tab 导航 */}
-      <MainStack.Screen
+      <RootStack.Screen
         name="Tab"
         options={{
           header: () => null,
@@ -74,27 +75,18 @@ function MainStackScreen() {
       />
       {ViewNavigation.map(({name, options, screen}) => {
         return (
-          <MainStack.Screen
+          <RootStack.Screen
             key={name}
             name={name}
-            options={options}
+            options={{
+              ...SlideFromRightIOS,
+              header: () => null,
+              ...options,
+            }}
             component={screen}
           />
         );
       })}
-    </MainStack.Navigator>
-  );
-}
-
-// 根导航
-export function RootStackScreen() {
-  return (
-    <RootStack.Navigator>
-      <RootStack.Screen
-        name="Main"
-        component={MainStackScreen}
-        options={{headerShown: false}}
-      />
     </RootStack.Navigator>
   );
 }

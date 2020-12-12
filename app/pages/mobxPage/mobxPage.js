@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, Button, SafeAreaView} from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Text, StyleSheet, Button} from 'react-native';
 import {observer} from 'mobx-react';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
 import MyStore, {listData} from '../../stores/myPage/data';
 
 const myStrore = new MyStore();
 @observer
-class mobxPage extends Component {
+class mobxPage extends PureComponent {
   constructor(props) {
     super(props);
     this.handleChangeList = this.handleChangeList.bind(this);
@@ -23,20 +23,18 @@ class mobxPage extends Component {
     const {list, count} = listData;
     const {operateBtnText} = myStrore;
     return (
-      <SafeAreaView>
-        <View>
-          <Text style={styles.title}> My Page </Text>
-          {list.map((item) => {
-            return (
-              <View style={styles.listItemWrapper} key={item}>
-                <Text style={styles.listItemText}>{item}</Text>
-              </View>
-            );
-          })}
-          <Text style={styles.text}>列表数量：{count}</Text>
-          <Button title={operateBtnText} onPress={this.handleChangeList} />
-        </View>
-      </SafeAreaView>
+      <View>
+        <Text style={styles.title}> My Page </Text>
+        {list.map((item) => {
+          return (
+            <View style={styles.listItemWrapper} key={item}>
+              <Text style={styles.listItemText}>{item}</Text>
+            </View>
+          );
+        })}
+        <Text style={styles.text}>列表数量：{count}</Text>
+        <Button title={operateBtnText} onPress={this.handleChangeList} />
+      </View>
     );
   }
 }

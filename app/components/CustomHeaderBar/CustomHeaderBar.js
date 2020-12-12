@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Icon from '../Icon/Icon';
 
 const CustomHeaderBar = (props) => {
-  const {platform, statusBarHeight} = props;
+  const {statusBarHeight} = props;
 
   const _navigateBack = () => {
     const {navigation} = props;
@@ -12,7 +12,7 @@ const CustomHeaderBar = (props) => {
   };
 
   return (
-    <View style={styles.customHeader(platform, statusBarHeight)}>
+    <View style={styles.customHeader(statusBarHeight)}>
       <View style={styles.headerWrapper}>
         <TouchableOpacity onPress={_navigateBack}>
           <Icon name="arrow_left" size={24} color="#3eaf7c" />
@@ -28,9 +28,9 @@ CustomHeaderBar.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  customHeader: (platform, statusBarHeight) => ({
+  customHeader: (statusBarHeight) => ({
     position: 'absolute',
-    top: platform === 'android' ? 0 : -statusBarHeight,
+    top: 0,
     left: 0,
     right: 0,
     paddingTop: statusBarHeight,

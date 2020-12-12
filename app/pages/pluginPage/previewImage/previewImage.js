@@ -1,15 +1,9 @@
 import React, {PureComponent} from 'react';
-import {
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  View,
-  Image,
-} from 'react-native';
+import {TouchableWithoutFeedback, StyleSheet, View, Image} from 'react-native';
 import PreviewImage from '../../../components/PreviewImage/PreviewImage';
 import GeneralFlatList from '../../../components/GeneralFlatList/GeneralFlatList';
-import commonStyles from '../../../styles/commonStyles';
 import {getAsyncStorage} from '../../../utils/storage/index';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 
 const MOCK_LIST = [
   {
@@ -42,7 +36,8 @@ const MOCK_LIST = [
 ];
 const MARGIN = 2;
 
-export default class previewImage extends PureComponent {
+@CustomSafeAreaView()
+class previewImage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -135,7 +130,7 @@ export default class previewImage extends PureComponent {
   render() {
     const {itemHeight, activeIndex, imageUrls} = this.state;
     return (
-      <SafeAreaView style={commonStyles.safeAreaView}>
+      <>
         <GeneralFlatList
           renderData={this.asyncData}
           renderItem={this._renderItem}
@@ -161,7 +156,7 @@ export default class previewImage extends PureComponent {
           activeIndex={activeIndex}
           imageUrls={imageUrls}
         />
-      </SafeAreaView>
+      </>
     );
   }
 }
@@ -183,3 +178,5 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 });
+
+export default previewImage;

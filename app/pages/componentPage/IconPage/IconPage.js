@@ -16,8 +16,11 @@ class IconPage extends PureComponent {
   }
 }
 
-export default CustomSafeAreaView({
-  barStyle: 'light-content',
-  backgroundColor: 'rgba(0,0,0,0.5)',
-  translucent: true,
-})(IconPage);
+export default CustomSafeAreaView(
+  {},
+  {
+    barStyle: 'light-content',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    translucent: true,
+  },
+)(IconPage);

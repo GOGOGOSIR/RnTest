@@ -1,15 +1,8 @@
 import React, {PureComponent} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from '../../components/Icon/Icon';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
 import GeneralFlatList from '../../components/GeneralFlatList/GeneralFlatList';
-import commonStyles from '../../styles/commonStyles';
 class pluginPage extends PureComponent {
   constructor(props) {
     super(props);
@@ -58,14 +51,12 @@ class pluginPage extends PureComponent {
     const {pluginList} = this.state;
     console.log('render', pluginList);
     return (
-      <SafeAreaView style={commonStyles.safeAreaView}>
-        <GeneralFlatList
-          renderData={pluginList}
-          renderItem={this.renderListItem}
-          pullUp={false}
-          pullDown={false}
-        />
-      </SafeAreaView>
+      <GeneralFlatList
+        renderData={pluginList}
+        renderItem={this.renderListItem}
+        pullUp={false}
+        pullDown={false}
+      />
     );
   }
 }
@@ -77,7 +68,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 45,
+    height: 65,
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
   },

@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {PureComponent} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet} from 'react-native';
 import ScrollableTabView, {
   ScrollableTabBar,
 } from 'react-native-scrollable-tab-view';
 import TabList from './components/tabList';
-import commonStyles from '../../../styles/commonStyles';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 
 const tabList = [
   'java',
@@ -20,8 +20,8 @@ const tabList = [
   'android',
   'ios',
 ];
-
-export default class tabView extends PureComponent {
+@CustomSafeAreaView()
+class tabView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -29,32 +29,30 @@ export default class tabView extends PureComponent {
 
   render() {
     return (
-      <SafeAreaView style={commonStyles.safeAreaView}>
-        <ScrollableTabView
-          locked={false}
-          initialPage={0}
-          prerenderingSiblingsNumber={0}
-          renderTabBar={() => (
-            <ScrollableTabBar
-              style={{
-                height: 40,
-                borderBottomWidth: 0,
-              }}
-              tabStyle={{
-                height: 40,
-              }}
-            />
-          )}
-          tabBarUnderlineStyle={styles.tabLineStyle}
-          style={styles.border}
-          tabBarBackgroundColor="#3eaf7c"
-          tabBarActiveTextColor="#fff"
-          tabBarInactiveTextColor="#333">
-          {tabList.map((tab, i) => {
-            return <TabList key={tab} tabLabel={tab} />;
-          })}
-        </ScrollableTabView>
-      </SafeAreaView>
+      <ScrollableTabView
+        locked={false}
+        initialPage={0}
+        prerenderingSiblingsNumber={0}
+        renderTabBar={() => (
+          <ScrollableTabBar
+            style={{
+              height: 40,
+              borderBottomWidth: 0,
+            }}
+            tabStyle={{
+              height: 40,
+            }}
+          />
+        )}
+        tabBarUnderlineStyle={styles.tabLineStyle}
+        style={styles.border}
+        tabBarBackgroundColor="#3eaf7c"
+        tabBarActiveTextColor="#fff"
+        tabBarInactiveTextColor="#333">
+        {tabList.map((tab, i) => {
+          return <TabList key={tab} tabLabel={tab} />;
+        })}
+      </ScrollableTabView>
     );
   }
 }
@@ -65,3 +63,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+export default tabView;

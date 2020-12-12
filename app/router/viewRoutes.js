@@ -1,3 +1,4 @@
+import {ScaleFromCenterAndroid} from '@react-navigation/stack/src/TransitionConfigs/TransitionPresets';
 // 三方插件
 import SnapCarouselPage from '../pages/pluginPage/snapCarousel/snapCarousel';
 import TabViewPage from '../pages/pluginPage/tabView/tabView';
@@ -33,16 +34,13 @@ const viewRoutes = [
     name: 'ImmersivePage',
     screen: ImmersivePage,
     type: 'view',
-    options: {
-      header: () => null,
-    },
   },
   {
     name: 'IconPage',
     screen: IconPage,
     type: 'view',
     options: {
-      header: () => null,
+      ...ScaleFromCenterAndroid,
     },
   },
 ];
