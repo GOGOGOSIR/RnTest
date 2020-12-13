@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
-import {observer} from 'mobx-react';
+import {observer} from './dataPage/mobx-react';
 import MyStore, {listData} from '../stores/myPage/data';
 
 const myStrore = new MyStore();
