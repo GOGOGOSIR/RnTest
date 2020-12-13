@@ -28,7 +28,7 @@ function TabStackScreen() {
             LaboratoryPage: 'experiment',
             ComponentPage: 'comp',
             PluginPage: 'international',
-            MobxPage: 'data',
+            DataPage: 'data',
           };
           const iconName = iconMap[route.name];
 

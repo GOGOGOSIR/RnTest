@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingTop: statusBarHeight,
+    zIndex: 100,
   }),
   headerWrapper: {
     height: 50,

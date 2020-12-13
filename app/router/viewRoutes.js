@@ -8,6 +8,8 @@ import CroperImagePage from '../pages/pluginPage/croperImage/croperImage';
 import ImmersivePage from '../pages/laboratoryPage/ImmersivePage/ImmersivePage';
 // 自定义组件
 import IconPage from '../pages/componentPage/IconPage/IconPage';
+// 数据
+import FormPage from '../pages/dataPage/FormPage/FormPage';
 
 const viewRoutes = [
   {
@@ -42,6 +44,11 @@ const viewRoutes = [
     options: {
       ...ScaleFromCenterAndroid,
     },
+  },
+  {
+    name: 'FormPage',
+    screen: FormPage,
+    type: 'view',
   },
 ];
 

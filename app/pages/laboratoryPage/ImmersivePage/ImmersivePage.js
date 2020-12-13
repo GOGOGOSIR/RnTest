@@ -32,31 +32,41 @@ class ImmersivePage extends PureComponent {
 
   render() {
     const {statusBarHeight, platform, ...othersProps} = this.props;
-    const mockList = [1, 2, 3, 4, 5];
+    const mockList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const mockTabList = [1, 2, 3];
     console.log('render');
     return (
-      <ScrollView
-        onScroll={this.handleScroll}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}>
-        {/* 背景区域 */}
-        <ImageBackground source={this.bgImage} style={styles.bgImage}>
-          <Text style={styles.bgImageText}>
-            该图片仅供学习使用，切勿用作商业活动
-          </Text>
-        </ImageBackground>
+      <>
         {/* 自定义头部 */}
         <CustomHeaderBar
           platform={platform}
           statusBarHeight={statusBarHeight}
           {...othersProps}
         />
-        <View style={[styles.mockList]}>
-          {mockList.map((i) => (
-            <View key={i} style={styles.mockListItem} />
-          ))}
-        </View>
-      </ScrollView>
+        <ScrollView
+          onScroll={this.handleScroll}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}>
+          {/* 背景区域 */}
+          <ImageBackground source={this.bgImage} style={styles.bgImage}>
+            <Text style={styles.bgImageText}>
+              该图片仅供学习使用，切勿用作商业活动
+            </Text>
+          </ImageBackground>
+          {/* mock tab list */}
+          <View style={styles.tabList}>
+            {mockTabList.map((i) => (
+              <View key={i} style={styles.tabListItem} />
+            ))}
+          </View>
+          {/* mock data list */}
+          <View style={[styles.mockList]}>
+            {mockList.map((i) => (
+              <View key={i} style={styles.mockListItem} />
+            ))}
+          </View>
+        </ScrollView>
+      </>
     );
   }
 }
@@ -83,6 +93,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     marginVertical: 10,
     borderRadius: 10,
+  },
+  tabList: {
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  tabListItem: {
+    height: 50,
+    width: 120,
+    backgroundColor: '#eee',
+    borderRadius: 5,
   },
 });
 

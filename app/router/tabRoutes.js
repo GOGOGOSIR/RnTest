@@ -1,4 +1,4 @@
-import MobxPage from '../pages/mobxPage/mobxPage';
+import DataPage from '../pages/dataPage/dataPage';
 import ComponentPage from '../pages/componentPage/componentPage';
 import LaboratoryPage from '../pages/laboratoryPage/laboratoryPage';
 import PluginPage from '../pages/pluginPage/pluginPage';
@@ -16,8 +16,8 @@ const tabRoutes = [
     },
   },
   {
-    name: 'MobxPage',
-    screen: MobxPage,
+    name: 'DataPage',
+    screen: DataPage,
     type: 'tab',
     initialParams: {
       isBottomTabNavigator: true,
