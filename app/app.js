@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import {BackHandler, Platform, ToastAndroid, Dimensions} from 'react-native';
-import Orientation from 'react-native-orientation-locker';
 import AppNavigation from './utils/createNavigation/index';
 import RNBootSplash from 'react-native-bootsplash';
 import {setAsyncStorage} from './utils/storage/index';
@@ -17,8 +16,6 @@ export default class Txclass extends PureComponent {
       );
     }
     RNBootSplash.hide({fade: true});
-    // 锁住屏幕方向
-    Orientation.lockToPortrait();
     this.initStorage();
   }
 

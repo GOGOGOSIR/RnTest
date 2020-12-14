@@ -20,6 +20,7 @@
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustPan"
+        android:screenOrientation="portrait"
         android:exported="true">
         <!-- ⚠️ add android:exported="true" and android:launchMode="singleTask" above -->
         <!-- remove the <intent-filter> from .MainActivity -->

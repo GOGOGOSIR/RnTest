@@ -105,7 +105,7 @@ const CustomSafeAreaView = (
       if (route.params && route.params.isBottomTabNavigator) {
         edges = ['right', 'left'];
       }
-      console.log('safe render', route, this.props.navigation);
+      console.log('safe render');
       return (
         <SafeAreaView
           edges={edges}
