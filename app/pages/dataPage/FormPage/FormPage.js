@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 
 @CustomSafeAreaView()
@@ -19,39 +20,85 @@ class FormPage extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <View style={styles.formItem}>
-            <Text style={styles.labelText}>姓名:</Text>
-            <TextInput
-              style={styles.formInput}
-              maxLength={5}
-              placeholder="请输入姓名"
-              placeholderTextColor="#ccc"
-              selectionColor="#3eaf7c"
-            />
-          </View>
-          <View style={styles.formItem}>
-            <Text style={styles.labelText}>密码:</Text>
-            <TextInput
-              style={styles.formInput}
-              placeholder="请输入密码"
-              placeholderTextColor="#ccc"
-              secureTextEntry={true}
-              selectionColor="#3eaf7c"
-            />
-          </View>
-          <View style={styles.formItem}>
-            <Text style={styles.labelText}>备注:</Text>
-            <TextInput
-              style={styles.formTextArea}
-              multiline
-              textAlignVertical="top"
-              placeholder="请输入备注"
-              placeholderTextColor="#ccc"
-              selectionColor="#3eaf7c"
-            />
-          </View>
-        </ScrollView>
+        <KeyboardAwareScrollView enableOnAndroid>
+          <ScrollView>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>姓名:</Text>
+              <TextInput
+                style={styles.formInput}
+                maxLength={5}
+                placeholder="请输入姓名"
+                placeholderTextColor="#ccc"
+                selectionColor="#3eaf7c"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>密码:</Text>
+              <TextInput
+                style={styles.formInput}
+                placeholder="请输入密码"
+                placeholderTextColor="#ccc"
+                secureTextEntry={true}
+                selectionColor="#3eaf7c"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>备注:</Text>
+              <TextInput
+                style={styles.formTextArea}
+                multiline
+                textAlignVertical="top"
+                placeholder="请输入备注"
+                placeholderTextColor="#ccc"
+                selectionColor="#3eaf7c"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>备注:</Text>
+              <TextInput
+                style={styles.formTextArea}
+                multiline
+                textAlignVertical="top"
+                placeholder="请输入备注"
+                placeholderTextColor="#ccc"
+                selectionColor="#3eaf7c"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>备注:</Text>
+              <TextInput
+                style={styles.formTextArea}
+                multiline
+                textAlignVertical="top"
+                placeholder="请输入备注"
+                placeholderTextColor="#ccc"
+                selectionColor="#3eaf7c"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>备注:</Text>
+              <TextInput
+                style={styles.formTextArea}
+                multiline
+                textAlignVertical="top"
+                placeholder="请输入备注"
+                placeholderTextColor="#ccc"
+                selectionColor="#3eaf7c"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Text style={styles.labelText}>备注:</Text>
+              <TextInput
+                style={styles.formTextArea}
+                multiline
+                textAlignVertical="top"
+                placeholder="请输入备注"
+                placeholderTextColor="#ccc"
+                selectionColor="#3eaf7c"
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAwareScrollView>
         <View style={styles.submitWrapper}>
           <TouchableOpacity>
             <View style={styles.submitBtn}>
