@@ -23,8 +23,16 @@ const CustomHeaderBar = (props) => {
 };
 
 CustomHeaderBar.propTypes = {
-  platform: PropTypes.string.isRequired,
-  statusBarHeight: PropTypes.number.isRequired,
+  statusBarHeight: PropTypes.number, // 状态栏的高度
+  isAnimate: PropTypes.bool, // 是否开启动画
+  isFloat: PropTypes.bool, // 是否脱离文档流
+  headerBarHeight: PropTypes.number, // 高度
+  headerBarStyle: PropTypes.object, // 样式
+  onPressLeftArea: PropTypes.func, // 点击左边区域的处理事件
+  onPressTitleArea: PropTypes.func, // 点击标题的处理事件
+  onPressRightArea: PropTypes.func, // 点击右边区域的处理事件
+  renderLeftArea: PropTypes.elementType, // 渲染左边区域的元素
+  renderTitleArea: PropTypes.elementType, // 渲染标题区域的元素
 };
 
 const styles = StyleSheet.create({

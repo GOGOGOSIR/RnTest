@@ -12,7 +12,8 @@
     "clean": "rm -rf ./node_modules ./ios/Pods",
     "pod-update": "cd ./ios && pod update && cd ..",
     "postinstall": "yarn clean-modules && yarn pod-update",
-    "reinstall": "yarn clean && yarn install"
+    "reinstall": "yarn clean && yarn install",
+    "react-devtools": "react-devtools"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
@@ -49,6 +50,7 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-devtools": "^4.10.1",
     "react-test-renderer": "16.13.1"
   },
   "jest": {

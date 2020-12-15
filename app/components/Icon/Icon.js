@@ -1,10 +1,17 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, Animated} from 'react-native';
 import IconFontMap from './fontMap';
 import PropTypes from 'prop-types';
 
 const Icon = (props) => {
-  const {name, size, color, styleOptions, ...othersProps} = props;
+  const {
+    isAnimatedElement,
+    name,
+    size,
+    color,
+    styleOptions,
+    ...othersProps
+  } = props;
   const unicode_decimal = IconFontMap(name);
   const styles = {
     fontSize: size,
@@ -13,15 +20,22 @@ const Icon = (props) => {
     fontFamily: 'iconfont',
   };
   othersProps.style = styles;
-  return <Text {...othersProps}>{unicode_decimal}</Text>;
+  return isAnimatedElement ? (
+    <Animated.Text {...othersProps}>{unicode_decimal}</Animated.Text>
+  ) : (
+    <Text {...othersProps}>{unicode_decimal}</Text>
+  );
 };
 
 Icon.propTypes = {
+  isAnimatedElement: PropTypes.bool,
   name: PropTypes.string,
   size: PropTypes.number,
-  color: PropTypes.string,
+  color: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  styleOptions: PropTypes.object,
 };
 Icon.defaultProps = {
+  isAnimatedElement: false,
   size: 18,
   color: '#333',
   styleOptions: {},
