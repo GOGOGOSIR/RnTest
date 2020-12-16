@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {PureComponent} from 'react';
 import {View, Text, ImageBackground, StyleSheet, Animated} from 'react-native';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
@@ -5,6 +6,9 @@ import AnimateHeaderBar from './AnimateHeaderBar';
 
 const mockList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const mockTabList = [1, 2, 3, 4];
+const HeaderBarHeight = 50;
+const fadeBarHeight = 30;
+let isHide = false;
 
 class ImmersivePage extends PureComponent {
   constructor(props) {
@@ -17,6 +21,7 @@ class ImmersivePage extends PureComponent {
     this._renderItem = this._renderItem.bind(this);
     this._renderHeader = this._renderHeader.bind(this);
     this.handleLayout = this.handleLayout.bind(this);
+    this.handleAnimated = this.handleAnimated.bind(this);
   }
 
   _renderItem() {
@@ -32,7 +37,7 @@ class ImmersivePage extends PureComponent {
 
   _renderHeader() {
     return (
-      <>
+      <View>
         {/* 广告背景图 */}
         <ImageBackground
           source={this.bgImage}
@@ -44,29 +49,50 @@ class ImmersivePage extends PureComponent {
         </ImageBackground>
         {/* mock tab list */}
         <Animated.View
-          style={[
-            styles.tabList,
-            {
-              transform: [
-                {
-                  translateY: this.state.scrolledY.interpolate({
-                    inputRange: [
-                      this.state.bgImageWrapperHeight,
-                      this.state.bgImageWrapperHeight + 1,
-                    ],
-                    outputRange: [0, 100],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            },
-          ]}>
+          ref={(ref) => (this.tabNav = ref)}
+          style={[styles.tabList]}>
           {mockTabList.map((i) => (
             <View key={i} style={styles.tabListItem} />
           ))}
         </Animated.View>
-      </>
+      </View>
     );
+  }
+
+  // 处理动画
+  handleAnimated(e) {
+    const scrolledY = e.nativeEvent.contentOffset.y;
+    const {bgImageWrapperHeight} = this.state;
+    const {statusBarHeight} = this.props;
+    const targetOffestY =
+      bgImageWrapperHeight - statusBarHeight - HeaderBarHeight - fadeBarHeight;
+    if (scrolledY >= targetOffestY && !isHide) {
+      console.log('hide');
+      this.tabNav.setNativeProps({
+        style: {
+          opacity: 0,
+        },
+      });
+      this.stickTabList.setNativeProps({
+        style: {
+          opacity: 1,
+        },
+      });
+      isHide = true;
+    } else if (scrolledY < targetOffestY && isHide) {
+      console.log('show');
+      this.tabNav.setNativeProps({
+        style: {
+          opacity: 1,
+        },
+      });
+      this.stickTabList.setNativeProps({
+        style: {
+          opacity: 0,
+        },
+      });
+      isHide = false;
+    }
   }
 
   handleLayout(e) {
@@ -79,8 +105,20 @@ class ImmersivePage extends PureComponent {
 
   render() {
     const {statusBarHeight, ...othersProps} = this.props;
-    const {scrolledY} = this.state;
-
+    const {scrolledY, bgImageWrapperHeight} = this.state;
+    const stickOffsetTop = bgImageWrapperHeight
+      ? scrolledY.interpolate({
+          inputRange: [
+            0,
+            bgImageWrapperHeight -
+              statusBarHeight -
+              HeaderBarHeight -
+              fadeBarHeight,
+          ],
+          outputRange: [0, statusBarHeight + HeaderBarHeight + fadeBarHeight],
+          extrapolate: 'clamp',
+        })
+      : 0;
     console.log('render');
     return (
       <>
@@ -90,8 +128,44 @@ class ImmersivePage extends PureComponent {
           statusBarHeight={statusBarHeight}
           {...othersProps}
         />
+        {/* fadeBar部分 */}
+        <Animated.View
+          style={[
+            styles.fadeBarWrapper,
+            {
+              top: scrolledY.interpolate({
+                inputRange: [0, statusBarHeight + HeaderBarHeight],
+                outputRange: [0, statusBarHeight + HeaderBarHeight],
+                extrapolate: 'clamp',
+              }),
+              opacity: scrolledY.interpolate({
+                inputRange: [
+                  statusBarHeight + HeaderBarHeight / 2,
+                  statusBarHeight + HeaderBarHeight,
+                ],
+                outputRange: [0, 1],
+                extrapolate: 'clamp',
+              }),
+            },
+          ]}>
+          <Text style={styles.fadeBarText}>我是fadeBar的内容</Text>
+        </Animated.View>
+        {/* tab吸顶部分 */}
+        <Animated.View
+          ref={(ref) => (this.stickTabList = ref)}
+          style={[
+            styles.stickTabList,
+            {
+              top: stickOffsetTop,
+            },
+          ]}>
+          {mockTabList.map((i) => (
+            <View key={i} style={styles.tabListItem} />
+          ))}
+        </Animated.View>
         <Animated.FlatList
           data={mockList}
+          // 由于ListHeaderComponent渲染后的层级永远在renderItem之下，即使设置zIndex也不好使
           ListHeaderComponent={this._renderHeader}
           renderItem={this._renderItem}
           keyExtractor={(item) => item.toString()}
@@ -107,6 +181,7 @@ class ImmersivePage extends PureComponent {
             ],
             {
               useNativeDriver: false,
+              listener: this.handleAnimated,
             },
           )}
           showsVerticalScrollIndicator={false}
@@ -118,6 +193,10 @@ class ImmersivePage extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  headerWrapper: {
+    position: 'relative',
+    zIndex: -10,
+  },
   bgImage: {
     height: 480,
     resizeMode: 'contain',
@@ -139,6 +218,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     marginVertical: 10,
     borderRadius: 10,
+  },
+  fadeBarWrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: fadeBarHeight,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'orange',
+    zIndex: 10,
+  },
+  stickTabList: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: '#3eaf7c',
+    zIndex: 10,
+    opacity: 0,
+  },
+  fadeBarText: {
+    fontSize: 14,
+    color: '#fff',
   },
   tabList: {
     paddingVertical: 10,
