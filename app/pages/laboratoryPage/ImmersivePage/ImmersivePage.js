@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {PureComponent} from 'react';
 import {View, Text, ImageBackground, StyleSheet, Animated} from 'react-native';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
