@@ -1,21 +1,25 @@
 import React, {PureComponent} from 'react';
-import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {View, StyleSheet, SectionList, RefreshControl} from 'react-native';
 import PropTypes from 'prop-types';
 import {validateType} from '../../utils/validate/tools';
 import StatusView from '../StatusView/StatusView';
 import ListFooter from './ListFooter';
-class GeneralFlatList extends PureComponent {
+
+class GeneralSectionList extends PureComponent {
   static propTypes = {
     requestParams: PropTypes.object, // 接口的请求参数
     renderData: PropTypes.oneOfType([PropTypes.func, PropTypes.array]), // 渲染数据（可以使数组或是Promise函数）
     resDataTemplate: PropTypes.string, // 列表数据的解构的字符串的集合
     resTotalTemplate: PropTypes.string, // 列表数据总数的解构的字符串的集合
     formateResFunc: PropTypes.func, // 格式化res结果的函数
-    renderItem: PropTypes.elementType, // flatList的renderItem
-    flatListProps: PropTypes.object, // 其他配置项
+    renderItem: PropTypes.elementType, // sectionList的renderItem
+    renderSectionHeader: PropTypes.elementType, // sectionList的renderSectionHeader
+    renderSectionFooter: PropTypes.elementType, // sectionList的renderSectionFooter
+    sectionListProps: PropTypes.object, // 其他配置项
     wrapperStyle: PropTypes.object, // 容器的样式
     pullDown: PropTypes.bool, // 是否开启下拉刷新
     pullUp: PropTypes.bool, // 是否开启上拉加载更多
+    // customListFooterComponent: PropTypes.elementType, // 自定义上拉加载更多footer组件
     loadMoreText: PropTypes.string, // 上拉加载更多footer组件加载更多的文案
     loadOverText: PropTypes.string, // 上拉加载更多footer组件全部加载完成时的文案
     pageSize: PropTypes.number, // 每页加载多少条数据
@@ -61,13 +65,13 @@ class GeneralFlatList extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('GeneralFlatList componentDidMount');
+    console.log('GeneralSectionList componentDidMount');
     this.getRenderList();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.renderData !== prevProps.renderData) {
-      console.log('GeneralFlatList componentDidUpdate');
+      console.log('GeneralSectionList componentDidUpdate');
       this.getRenderList();
     }
   }
@@ -178,19 +182,20 @@ class GeneralFlatList extends PureComponent {
       pullUp,
       loadMoreText,
       loadOverText,
-      flatListProps,
+      sectionListProps,
       wrapperStyle,
       refreshControlConfig,
-      // customListFooterComponent,
+      renderSectionHeader,
+      renderSectionFooter,
     } = this.props;
     const {renderList, isReloadData, refreshStatus} = this.state;
-    // flatList的props
+    // SectionList的props
     const listProps = {
       horizontal: false,
       onEndReachedThreshold: 0.1,
       showsVerticalScrollIndicator: false,
       keyExtractor: (item, index) => index.toString(),
-      ...flatListProps,
+      ...sectionListProps,
     };
     pullUp && (listProps.onEndReached = this.loadMore);
     if (pullDown) {
@@ -206,9 +211,11 @@ class GeneralFlatList extends PureComponent {
     return (
       <View style={[styles.listWrapper, wrapperStyle]}>
         {renderList.length ? (
-          <FlatList
-            data={renderList}
+          <SectionList
+            sections={renderList}
             renderItem={renderItem}
+            renderSectionHeader={renderSectionHeader}
+            renderSectionFooter={renderSectionFooter}
             {...listProps}
             ListFooterComponent={
               pullUp ? (
@@ -235,4 +242,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GeneralFlatList;
+export default GeneralSectionList;

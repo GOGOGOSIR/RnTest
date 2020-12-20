@@ -65,12 +65,8 @@ export default class tabList extends Component {
       <GeneralFlatList
         renderData={this.mockAsyncData}
         renderItem={this.renderListItem}
-        pullUp={true}
-        pullDown={true}
         resDataTemplate="data.result"
         resTotalTemplate="data.totalCounts"
-        loadMoreText="loading..."
-        loadOverText="ending"
       />
     );
   }

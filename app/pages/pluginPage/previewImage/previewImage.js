@@ -94,10 +94,9 @@ class previewImage extends PureComponent {
   asyncData() {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.list = MOCK_LIST;
         resolve({
           data: {
-            result: this.list,
+            result: MOCK_LIST,
             totalCounts: 100,
           },
         });
@@ -134,7 +133,7 @@ class previewImage extends PureComponent {
         <GeneralFlatList
           renderData={this.asyncData}
           renderItem={this._renderItem}
-          flatListConfig={{
+          flatListProps={{
             numColumns: 2,
             columnWrapperStyle: [styles.columnWrapper, {height: itemHeight}],
             getItemLayout: this._getItemLayout,

@@ -6,6 +6,7 @@ import PreviewImagePage from '../pages/pluginPage/previewImage/previewImage';
 import CroperImagePage from '../pages/pluginPage/croperImage/croperImage';
 // 实验室
 import ImmersivePage from '../pages/laboratoryPage/ImmersivePage/ImmersivePage';
+import SwipeTabPage from '../pages/laboratoryPage/SwipeTabPage/SwipeTabPage';
 // 自定义组件
 import IconPage from '../pages/componentPage/IconPage/IconPage';
 // 数据
@@ -48,6 +49,11 @@ const viewRoutes = [
   {
     name: 'FormPage',
     screen: FormPage,
+    type: 'view',
+  },
+  {
+    name: 'SwipeTabPage',
+    screen: SwipeTabPage,
     type: 'view',
   },
 ];

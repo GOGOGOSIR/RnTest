@@ -12,6 +12,10 @@ class laboratoryPage extends PureComponent {
           label: '沉浸式页面',
           path: 'ImmersivePage',
         },
+        {
+          label: '滑动切换页面',
+          path: 'SwipeTabPage',
+        },
       ],
     };
     this._renderItem = this._renderItem.bind(this);
