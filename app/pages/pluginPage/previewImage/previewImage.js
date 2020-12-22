@@ -33,6 +33,60 @@ const MOCK_LIST = [
   {
     url: require('../../../assets/image/swiper/9.jpg'),
   },
+  {
+    url: require('../../../assets/image/swiper/1.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/2.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/3.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/4.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/5.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/6.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/7.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/8.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/9.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/1.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/2.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/3.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/4.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/5.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/6.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/7.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/8.jpg'),
+  },
+  {
+    url: require('../../../assets/image/swiper/9.jpg'),
+  },
 ];
 const MARGIN = 2;
 
@@ -136,7 +190,7 @@ class previewImage extends PureComponent {
           flatListProps={{
             numColumns: 2,
             columnWrapperStyle: [styles.columnWrapper, {height: itemHeight}],
-            getItemLayout: this._getItemLayout,
+            // getItemLayout: this._getItemLayout,
           }}
           resDataTemplate="data.result"
           resTotalTemplate="data.totalCounts"

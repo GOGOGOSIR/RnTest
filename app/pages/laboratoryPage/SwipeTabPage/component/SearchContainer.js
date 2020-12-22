@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import {View, Text, TextInput, Dimensions, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from '../../../../components/Icon/Icon';
-import {throttle} from '../../../../utils/tools';
 
 export default class SearchContainer extends PureComponent {
   static propTypes = {
@@ -12,6 +11,7 @@ export default class SearchContainer extends PureComponent {
     returnKeyType: PropTypes.string,
     textAlign: PropTypes.string,
     containerStyle: PropTypes.object,
+    handleChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -25,21 +25,15 @@ export default class SearchContainer extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      searchValue: '',
-    };
-    this.handleChangeText = this.handleChangeText.bind(this);
+    this.onSubmitEditing = this.onSubmitEditing.bind(this);
   }
 
-  handleChangeText(newText) {
-    console.log('changeText', newText);
-    this.setState({
-      searchValue: newText.trim(),
-    });
+  onSubmitEditing({nativeEvent: {text}}) {
+    const {handleChange} = this.props;
+    handleChange && handleChange(text.trim());
   }
 
   render() {
-    const {searchValue} = this.state;
     const {
       placeholder,
       editable,
@@ -59,8 +53,7 @@ export default class SearchContainer extends PureComponent {
           <Icon name="search" size={12} color="#333" />
           <TextInput
             style={styles.textInput}
-            onChangeText={throttle(this.handleChangeText, 1000)}
-            value={searchValue}
+            onSubmitEditing={this.onSubmitEditing}
             editable={editable}
             placeholder={placeholder}
             placeholderTextColor={placeholderTextColor}

@@ -10,6 +10,7 @@ class GeneralFlatList extends PureComponent {
     renderData: PropTypes.oneOfType([PropTypes.func, PropTypes.array]), // 渲染数据（可以使数组或是Promise函数）
     resDataTemplate: PropTypes.string, // 列表数据的解构的字符串的集合
     resTotalTemplate: PropTypes.string, // 列表数据总数的解构的字符串的集合
+    margeDataFunc: PropTypes.func,
     formateResFunc: PropTypes.func, // 格式化res结果的函数
     renderItem: PropTypes.elementType, // flatList的renderItem
     flatListProps: PropTypes.object, // 其他配置项
@@ -70,6 +71,14 @@ class GeneralFlatList extends PureComponent {
       console.log('GeneralFlatList componentDidUpdate');
       this.getRenderList();
     }
+    if (this.props.requestParams !== prevProps.requestParams) {
+      console.log('重置');
+      this.flatList.scrollToOffset({
+        offset: 0,
+        animated: false,
+      });
+      this.refreshList();
+    }
   }
 
   // 获取渲染数据
@@ -82,6 +91,7 @@ class GeneralFlatList extends PureComponent {
       pullUp,
       pageSize,
       requestParams,
+      margeDataFunc,
     } = this.props;
     let list = [];
     let isReloadData = false;
@@ -129,8 +139,13 @@ class GeneralFlatList extends PureComponent {
     }
     isReloadData = true;
     const prevRenderList = this.currentPage === 1 ? [] : this.state.renderList;
+    let margeData = [...prevRenderList, ...list];
+    if (margeDataFunc) {
+      margeData = margeDataFunc(prevRenderList, list);
+      console.log('合成后的data', margeData);
+    }
     this.setState({
-      renderList: [...prevRenderList, ...list],
+      renderList: margeData,
       isReloadData,
       refreshStatus: false,
     });
@@ -207,6 +222,7 @@ class GeneralFlatList extends PureComponent {
       <View style={[styles.listWrapper, wrapperStyle]}>
         {renderList.length ? (
           <FlatList
+            ref={(ref) => (this.flatList = ref)}
             data={renderList}
             renderItem={renderItem}
             {...listProps}

@@ -7,7 +7,7 @@ import {
   View,
   Text,
 } from 'react-native';
-import GeneralSectionList from '../../../../components/GeneralSectionList/GeneralSectionList';
+import PropTypes from 'prop-types';
 import GeneralFlatList from '../../../../components/GeneralFlatList/GeneralFlatList';
 import RenderItem from './RenderItem';
 
@@ -79,29 +79,27 @@ const MOCK_LIST = [
 const MARGIN = 15;
 
 class LiveList extends PureComponent {
+  static propTypes = {
+    requestParams: PropTypes.object,
+  };
+
+  static defaultProps = {
+    requestParams: {},
+  };
   constructor(props) {
     super(props);
     this.state = {};
     this._renderItem = this._renderItem.bind(this);
-    this._renderList = this._renderList.bind(this);
-    this._renderSectionHeader = this._renderSectionHeader.bind(this);
+    this.margeDataFunc = this.margeDataFunc.bind(this);
   }
 
   // 模拟数据
   asyncData() {
     return new Promise((resolve) => {
-      const Data = MOCK_LIST.map((item) => ({
-        title: item.title,
-        data: [
-          {
-            data: item.data,
-          },
-        ],
-      }));
       setTimeout(() => {
         resolve({
           data: {
-            result: Data,
+            result: JSON.parse(JSON.stringify(MOCK_LIST)),
             totalCounts: 5,
           },
         });
@@ -109,54 +107,52 @@ class LiveList extends PureComponent {
     });
   }
 
-  _renderItem({item}) {
+  _renderItem({item: {title, data}}) {
     return (
-      <TouchableOpacity
-        style={styles.itemWrapper}
-        onPress={() => {
-          Alert.alert('播放视频');
-        }}>
-        <RenderItem data={item} />
-      </TouchableOpacity>
-    );
-  }
-
-  _renderList({section: {data}}) {
-    console.log(data, 'item');
-    return (
-      <View style={styles.sectionItemWrapper}>
-        <GeneralFlatList
-          renderData={data[0].data}
-          renderItem={this._renderItem}
-          flatListProps={{
-            numColumns: 2,
-            columnWrapperStyle: [styles.columnWrapper],
-          }}
-          pullUp={false}
-          pullDown={false}
-        />
+      <View>
+        <View style={styles.sectionTitle}>
+          <Text style={styles.sectionTitleText}>{title}</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          {data.map((i, index) => {
+            return (
+              <TouchableOpacity
+                style={styles.itemWrapper}
+                key={index}
+                onPress={() => {
+                  Alert.alert('播放视频');
+                }}>
+                <RenderItem data={i} />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </View>
     );
   }
 
-  _renderSectionHeader({section: {title}}) {
-    return (
-      <View style={styles.sectionTitle}>
-        <Text style={styles.sectionTitleText}>{title}</Text>
-      </View>
-    );
+  margeDataFunc(prevData, data) {
+    if (!prevData.length) {
+      return data;
+    }
+
+    return data.map((item, index) => {
+      if (item.title === '直播回放') {
+        const prevDataList = prevData[index].data;
+        item.data = [...prevDataList, ...item.data];
+      }
+      return item;
+    });
   }
 
   render() {
+    const {requestParams} = this.props;
     return (
-      <GeneralSectionList
+      <GeneralFlatList
         renderData={this.asyncData}
-        renderItem={this._renderList}
-        renderSectionHeader={this._renderSectionHeader}
-        sectionListProps={{
-          stickySectionHeadersEnabled: false,
-          removeClippedSubviews: true,
-        }}
+        requestParams={requestParams}
+        renderItem={this._renderItem}
+        margeDataFunc={this.margeDataFunc}
         wrapperStyle={styles.wrapperStyle}
         resDataTemplate="data.result"
         resTotalTemplate="data.totalCounts"
@@ -174,6 +170,13 @@ class LiveList extends PureComponent {
 const styles = StyleSheet.create({
   wrapperStyle: {
     backgroundColor: '#F5F5F9',
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: MARGIN,
+    backgroundColor: '#fff',
   },
   itemWrapper: {
     width: (Dimensions.get('window').width - 2 * MARGIN - MARGIN) / 2,

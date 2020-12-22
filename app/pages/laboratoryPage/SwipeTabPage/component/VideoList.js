@@ -1,9 +1,50 @@
 import React, {PureComponent} from 'react';
 import {TouchableOpacity, StyleSheet, Dimensions, Alert} from 'react-native';
 import GeneralFlatList from '../../../../components/GeneralFlatList/GeneralFlatList';
+import PropTypes from 'prop-types';
 import RenderItem from './RenderItem';
 
 const MOCK_LIST = [
+  {
+    timestr: '开播时间：1月1号 13点30分',
+    status: '预约中',
+    numstr: '52人预约',
+    pic: require('../../../../assets/image/swiper/1.jpg'),
+    company: '泰丰贝悦汇',
+    desc: '踩盘日记：再访大运地标旁 的优质公寓再访大运地...',
+  },
+  {
+    timestr: '开播时间：1月1号 13点30分',
+    status: '预约中',
+    numstr: '52人预约',
+    pic: require('../../../../assets/image/swiper/2.jpg'),
+    company: '泰丰贝悦汇',
+    desc: '踩盘日记：再访大运地标旁 的优质公寓再访大运地...',
+  },
+  {
+    timestr: '开播时间：1月1号 13点30分',
+    status: '预约中',
+    numstr: '52人预约',
+    pic: require('../../../../assets/image/swiper/3.jpg'),
+    company: '泰丰贝悦汇',
+    desc: '踩盘日记：再访大运地标旁 的优质公寓再访大运地...',
+  },
+  {
+    timestr: '开播时间：1月1号 13点30分',
+    status: '预约中',
+    numstr: '52人预约',
+    pic: require('../../../../assets/image/swiper/4.jpg'),
+    company: '泰丰贝悦汇',
+    desc: '踩盘日记：再访大运地标旁 的优质公寓再访大运地...',
+  },
+  {
+    timestr: '开播时间：1月1号 13点30分',
+    status: '预约中',
+    numstr: '52人预约',
+    pic: require('../../../../assets/image/swiper/5.jpg'),
+    company: '泰丰贝悦汇',
+    desc: '踩盘日记：再访大运地标旁 的优质公寓再访大运地...',
+  },
   {
     timestr: '开播时间：1月1号 13点30分',
     status: '预约中',
@@ -48,6 +89,13 @@ const MOCK_LIST = [
 const MARGIN = 15;
 
 class VideoList extends PureComponent {
+  static propTypes = {
+    requestParams: PropTypes.object,
+  };
+
+  static defaultProps = {
+    requestParams: {},
+  };
   constructor(props) {
     super(props);
     this.state = {};
@@ -60,7 +108,7 @@ class VideoList extends PureComponent {
       setTimeout(() => {
         resolve({
           data: {
-            result: MOCK_LIST,
+            result: JSON.parse(JSON.stringify(MOCK_LIST)),
             totalCounts: 100,
           },
         });
@@ -81,9 +129,11 @@ class VideoList extends PureComponent {
   }
 
   render() {
+    const {requestParams} = this.props;
     return (
       <GeneralFlatList
         renderData={this.asyncData}
+        requestParams={requestParams}
         renderItem={this._renderItem}
         flatListProps={{
           numColumns: 2,

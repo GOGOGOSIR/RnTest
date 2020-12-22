@@ -16,23 +16,34 @@ import SearchContainer from './component/SearchContainer';
 class SwipeTabPage extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
-    this._goBack = this._goBack.bind(this);
+    this.state = {
+      requestParams: {},
+    };
+    this._renderTabBarFooterComponent = this._renderTabBarFooterComponent.bind(
+      this,
+    );
+    this.handleChange = this.handleChange.bind(this);
   }
 
   _renderTabBarFooterComponent() {
     return (
       <View style={styles.searchWrapper}>
-        <SearchContainer />
+        <SearchContainer handleChange={this.handleChange} />
       </View>
     );
   }
 
-  _goBack() {
-    this.props.navigation.goBack();
+  handleChange(data) {
+    console.log(data, 'seach');
+    this.setState({
+      requestParams: {
+        searchValue: data,
+      },
+    });
   }
 
   render() {
+    const {requestParams} = this.state;
     return (
       <View style={{flex: 1, position: 'relative'}}>
         <ScrollableTabView
@@ -42,8 +53,8 @@ class SwipeTabPage extends PureComponent {
               renderTabBarFooterComponent={this._renderTabBarFooterComponent}
             />
           )}>
-          <LiveList tabLabel="直播看房" />
-          <VideoList tabLabel="视频看房" />
+          <LiveList tabLabel="直播看房" requestParams={requestParams} />
+          <VideoList tabLabel="视频看房" requestParams={requestParams} />
         </ScrollableTabView>
         <TouchableOpacity style={styles.backBtn} onPress={this._goBack}>
           <Icon name="arrow_left" size={27} color="#000000" />
