@@ -1,5 +1,6 @@
-import React, {PureComponent} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+/* eslint-disable react/require-default-props */
+import React, { PureComponent } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class ListFooter extends PureComponent {
@@ -21,7 +22,9 @@ export default class ListFooter extends PureComponent {
   }
 
   render() {
-    const {hasMoreFlag, visible, loadMoreText, loadOverText} = this.props;
+    const {
+      hasMoreFlag, visible, loadMoreText, loadOverText,
+    } = this.props;
     return (
       <>
         {visible ? (

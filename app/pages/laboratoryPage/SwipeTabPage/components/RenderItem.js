@@ -1,14 +1,17 @@
 import React, {PureComponent} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 
 export default class RenderItem extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
+    isLive: PropTypes.bool, // 是否是直播
   };
 
   static defaultProps = {
     data: {},
+    isLive: false,
   };
 
   constructor(props) {
@@ -17,43 +20,81 @@ export default class RenderItem extends PureComponent {
   }
 
   // 渲染播放区域内容
-  renderPlayTimeArea() {
-    const {timestr} = this.props.data;
+  renderPlayTimeArea({sortType, appointTime}) {
+    const time = appointTime
+      ? dayjs(appointTime).format('MM月DD日 HH点mm分')
+      : '';
     return (
-      <View style={styles.playTimeWrapper}>
-        <Text style={styles.playTimeText}>{timestr}</Text>
-      </View>
+      <>
+        {
+          // 判断直播状态是否是预约直播
+          sortType === 'liveAppointBroad' ? (
+            <View style={styles.playTimeWrapper}>
+              <Text style={styles.playTimeText}>
+                开播时间:
+                {time}
+              </Text>
+            </View>
+          ) : null
+        }
+      </>
     );
   }
 
   // 渲染标签区域
-  renderTagArea() {
-    const {status, numstr} = this.props.data;
+  renderTagArea({sortType, ...othersProps}) {
+    const valueMap = {
+      liveAppointBroad: {
+        name: '预约中',
+        countKey: 'customerAppointNum',
+        unit: '人预约',
+      },
+      liveBroad: {
+        name: '直播中',
+        countKey: '',
+        unit: '人观看',
+      },
+      liveReplayBroad: {
+        name: '回放',
+        countKey: '',
+        unit: '人观看',
+      },
+    };
     return (
       <View style={styles.tagWrapper}>
-        <View style={styles.tagDescWrapper}>
-          <Text style={styles.tagDescText}>{status}</Text>
-        </View>
-        <Text style={styles.tagNum}>{numstr}</Text>
+        {sortType === 'liveBroad' ? (
+          <View style={styles.tagDescAnimateWrapper} />
+        ) : (
+          <View style={styles.tagDescWrapper}>
+            <Text style={styles.tagDescText}>{valueMap[sortType].name}</Text>
+          </View>
+        )}
+        <Text style={styles.tagNum}>
+          {othersProps[valueMap[sortType].countKey]}
+          {valueMap[sortType].unit}
+        </Text>
       </View>
     );
   }
 
   render() {
-    const {pic, company, desc} = this.props.data;
+    const {data, isLive} = this.props;
+    const {coverUrl, gardenName, title, videoTitle} = data;
     return (
       <View style={styles.renderItemWrapper}>
-        <ImageBackground style={styles.bgImageWrapper} source={pic}>
-          {this.renderTagArea()}
+        <ImageBackground style={styles.bgImageWrapper} source={coverUrl}>
+          {/* 判断是否是直播聚合项 */}
+          {isLive ? this.renderTagArea(data) : null}
           <View style={styles.maskWrapper}>
-            <Text style={styles.maskText}>{company}</Text>
+            <Text style={styles.maskText}>{gardenName}</Text>
           </View>
           <View style={styles.maskOpacity} />
         </ImageBackground>
         <Text style={styles.descText} numberOfLines={2} ellipsizeMode="tail">
-          {desc}
+          {isLive ? title : videoTitle}
         </Text>
-        {this.renderPlayTimeArea()}
+        {/* 判断是否是直播聚合项 */}
+        {isLive ? this.renderPlayTimeArea(data) : null}
       </View>
     );
   }
@@ -110,6 +151,13 @@ const styles = StyleSheet.create({
     height: 20,
     alignItems: 'center',
     zIndex: 2,
+  },
+  tagDescAnimateWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF9911',
+    borderRadius: 10,
+    alignSelf: 'stretch',
   },
   tagDescWrapper: {
     paddingHorizontal: 9,

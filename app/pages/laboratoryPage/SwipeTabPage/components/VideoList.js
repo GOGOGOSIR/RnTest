@@ -1,18 +1,12 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable no-underscore-dangle */
-import React, { PureComponent } from 'react';
-import {
-  TouchableOpacity, StyleSheet, Dimensions,
-} from 'react-native';
+import React, {PureComponent} from 'react';
+import {TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 import PropTypes from 'prop-types';
 import GeneralFlatList from '../../../../components/GeneralList/GeneralFlatList';
-import { QFReactHelper } from '../../../../common/NativeHelper';
 import RenderItem from './RenderItem';
 
 const MOCK_LIST = [
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '1',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '1',
@@ -31,7 +25,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '2',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '2',
@@ -50,7 +44,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '3',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '3',
@@ -69,7 +63,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '4',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '4',
@@ -88,7 +82,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '5',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '5',
@@ -107,7 +101,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '6',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '6',
@@ -126,7 +120,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '7',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '7',
@@ -145,7 +139,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '8',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '8',
@@ -164,7 +158,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '9',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '9',
@@ -183,7 +177,7 @@ const MOCK_LIST = [
     videoUrl: '',
   },
   {
-    coverUrl: require('../../../../assets/img/weixin.png'),
+    coverUrl: require('../../../../assets/image/swiper/1.jpg'),
     createId: '9',
     createTime: '2020-12-23T06:07:38.159Z',
     entityId: '9',
@@ -207,11 +201,11 @@ const MARGIN = 15;
 class VideoList extends PureComponent {
   static propTypes = {
     requestParams: PropTypes.object,
-  }
+  };
 
   static defaultProps = {
     requestParams: {},
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -225,8 +219,12 @@ class VideoList extends PureComponent {
       setTimeout(() => {
         resolve({
           data: {
-            code: 'c0000',
-            result: { items: JSON.parse(JSON.stringify(MOCK_LIST)), pageCount: 30, pageSize: 10 },
+            code: 'C0000',
+            result: {
+              items: JSON.parse(JSON.stringify(MOCK_LIST)),
+              pageCount: 30,
+              pageSize: 10,
+            },
           },
         });
       }, 800);
@@ -234,25 +232,24 @@ class VideoList extends PureComponent {
   }
 
   // 处理点击某项
-  handleClickItem({ videoUrl }) {
-    videoUrl && QFReactHelper.playVideo(videoUrl);
+  handleClickItem({videoUrl}) {
+    console.log(videoUrl);
   }
 
-  _renderItem({ item }) {
+  _renderItem({item}) {
     return (
       <TouchableOpacity
         style={styles.itemWrapper}
         onPress={() => {
           this.handleClickItem(item);
-        }}
-      >
+        }}>
         <RenderItem data={item} />
       </TouchableOpacity>
     );
   }
 
   render() {
-    const { requestParams } = this.props;
+    const {requestParams} = this.props;
     return (
       <GeneralFlatList
         renderData={this.asyncData}
@@ -265,7 +262,7 @@ class VideoList extends PureComponent {
         resDataTemplate="data.result.items"
         resTotalTemplate="data.result.pageCount"
         resSuccessCodeTemplate="data.code"
-        resPageSizeTemplates="data.result.pageSize"
+        resPageSizeTemplate="data.result.pageSize"
         wrapperStyle={styles.wrapper}
       />
     );

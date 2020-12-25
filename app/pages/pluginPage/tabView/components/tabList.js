@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import GeneralFlatList from '../../../../components/GeneralFlatList/GeneralFlatList';
-
+import GeneralFlatList from '../../../../components/GeneralList/GeneralFlatList';
 export default class tabList extends Component {
   constructor(props) {
     super(props);
@@ -10,10 +9,6 @@ export default class tabList extends Component {
     };
     this.renderListItem = this.renderListItem.bind(this);
     this.mockAsyncData = this.mockAsyncData.bind(this);
-  }
-
-  componentDidMount() {
-    // this.getList();
   }
 
   getList() {
@@ -44,6 +39,8 @@ export default class tabList extends Component {
           data: {
             result,
             totalCounts: 100,
+            pageSize: 20,
+            status: 'C0000',
           },
         });
       }, 500);
@@ -67,6 +64,7 @@ export default class tabList extends Component {
         renderItem={this.renderListItem}
         resDataTemplate="data.result"
         resTotalTemplate="data.totalCounts"
+        resPageSizeTemplate="data.pageSize"
       />
     );
   }

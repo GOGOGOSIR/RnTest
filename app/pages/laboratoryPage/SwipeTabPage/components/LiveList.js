@@ -1,11 +1,4 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
   TouchableOpacity,
   StyleSheet,
@@ -15,7 +8,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import GeneralFlatList from '../../../../components/GeneralList/GeneralFlatList';
-import { QFReactHelper } from '../../../../common/NativeHelper';
 import RenderItem from './RenderItem';
 
 const MOCK = {
@@ -40,8 +32,8 @@ const MOCK = {
         liveActualTime: '2020-12-23T03:02:20.957Z',
         liveAnchorId: '1',
         liveAnchorName: '小爱',
-        liveRecordUrl: require('../../../../assets/img/weixin.png'),
-        coverUrl: require('../../../../assets/img/weixin.png'),
+        liveRecordUrl: require('../../../../assets/image/swiper/1.jpg'),
+        coverUrl: require('../../../../assets/image/swiper/1.jpg'),
         liveRoomUrl: 'https://www.baidu.com/room',
         liveStatus: 'NOT_PUBLISH',
         liveStopTime: '2020-12-23T03:02:20.957Z',
@@ -79,8 +71,8 @@ const MOCK = {
         liveActualTime: '2020-12-23T03:02:20.957Z',
         liveAnchorId: '1',
         liveAnchorName: '小s',
-        liveRecordUrl: require('../../../../assets/img/weixin.png'),
-        coverUrl: require('../../../../assets/img/weixin.png'),
+        liveRecordUrl: require('../../../../assets/image/swiper/1.jpg'),
+        coverUrl: require('../../../../assets/image/swiper/1.jpg'),
         liveRoomUrl: 'https://www.baidu.com/room',
         liveStatus: 'NOT_PUBLISH',
         liveStopTime: '2020-12-23T03:02:20.957Z',
@@ -107,8 +99,8 @@ const MOCK = {
         liveActualTime: '2020-12-23T03:02:20.957Z',
         liveAnchorId: '1',
         liveAnchorName: 'koss',
-        liveRecordUrl: require('../../../../assets/img/weixin.png'),
-        coverUrl: require('../../../../assets/img/weixin.png'),
+        liveRecordUrl: require('../../../../assets/image/swiper/1.jpg'),
+        coverUrl: require('../../../../assets/image/swiper/1.jpg'),
         liveRoomUrl: 'https://www.baidu.com/room',
         liveStatus: 'NOT_PUBLISH',
         liveStopTime: '2020-12-23T03:02:20.957Z',
@@ -146,8 +138,8 @@ const MOCK = {
         liveActualTime: '2020-12-23T03:02:20.957Z',
         liveAnchorId: '1',
         liveAnchorName: '小s',
-        liveRecordUrl: require('../../../../assets/img/weixin.png'),
-        coverUrl: require('../../../../assets/img/weixin.png'),
+        liveRecordUrl: require('../../../../assets/image/swiper/1.jpg'),
+        coverUrl: require('../../../../assets/image/swiper/1.jpg'),
         liveRoomUrl: 'https://www.baidu.com/room',
         liveStatus: 'NOT_PUBLISH',
         liveStopTime: '2020-12-23T03:02:20.957Z',
@@ -174,8 +166,8 @@ const MOCK = {
         liveActualTime: '2020-12-23T03:02:20.957Z',
         liveAnchorId: '1',
         liveAnchorName: 'koss',
-        liveRecordUrl: require('../../../../assets/img/weixin.png'),
-        coverUrl: require('../../../../assets/img/weixin.png'),
+        liveRecordUrl: require('../../../../assets/image/swiper/1.jpg'),
+        coverUrl: require('../../../../assets/image/swiper/1.jpg'),
         liveRoomUrl: 'https://www.baidu.com/room',
         liveStatus: 'NOT_PUBLISH',
         liveStopTime: '2020-12-23T03:02:20.957Z',
@@ -202,8 +194,8 @@ const MOCK = {
         liveActualTime: '2020-12-23T03:02:20.957Z',
         liveAnchorId: '1',
         liveAnchorName: 'koss',
-        liveRecordUrl: require('../../../../assets/img/weixin.png'),
-        coverUrl: require('../../../../assets/img/weixin.png'),
+        liveRecordUrl: require('../../../../assets/image/swiper/1.jpg'),
+        coverUrl: require('../../../../assets/image/swiper/1.jpg'),
         liveRoomUrl: 'https://www.baidu.com/room',
         liveStatus: 'NOT_PUBLISH',
         liveStopTime: '2020-12-23T03:02:20.957Z',
@@ -226,12 +218,11 @@ const MARGIN = 15;
 class LiveList extends PureComponent {
   static propTypes = {
     requestParams: PropTypes.object,
-    updateLiveUrl: PropTypes.func, // 传递liveUrl给父组件更新
-  }
+  };
 
   static defaultProps = {
     requestParams: {},
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -247,7 +238,7 @@ class LiveList extends PureComponent {
         resolve({
           data: {
             result: JSON.parse(JSON.stringify(MOCK)),
-            code: 'c0000',
+            code: 'C0000',
           },
         });
       }, 1800);
@@ -264,7 +255,7 @@ class LiveList extends PureComponent {
     const result = [];
     for (const [key, value] of Object.entries(data)) {
       const title = liveNameMap[key];
-      const { items } = value;
+      const {items} = value;
       const list = items.map((item) => ({
         ...item,
         sortType: key,
@@ -279,19 +270,15 @@ class LiveList extends PureComponent {
   }
 
   // 处理加载更多的数据合并操作
-  mergeDataFunc (prevData, data) {
+  mergeDataFunc(prevData, data) {
     if (!prevData.length) {
       return data;
     }
     return data.map((item, index) => {
-      const { sortType } = item;
+      const {sortType} = item;
       if (sortType === 'liveReplayBroad') {
         const prevDataArr = prevData[index].data;
-        // eslint-disable-next-line no-param-reassign
-        item.data = [
-          ...prevDataArr,
-          ...item.data,
-        ];
+        item.data = [...prevDataArr, ...item.data];
       }
       return item;
     });
@@ -299,58 +286,32 @@ class LiveList extends PureComponent {
 
   handleClickItem(data) {
     console.log(data);
-    const {
-      sortType, liveRecordUrl, liveRoomUrl, liveReplayUrl,
-    } = data;
-    const { navigation, updateLiveUrl } = this.props;
-    if (sortType === 'liveAppointBroad') {
-      // 直播预约 进入预约详情页
-      navigation.navigate('ReserveInfo', {
-        liveUrl: liveRoomUrl,
-      });
-    } else if (sortType === 'liveBroad') {
-      // 直播中 进入直播间
-      if (liveRoomUrl) {
-        navigation.navigate('LiveFullScreen', {
-          liveUrl: liveRoomUrl,
-        });
-        if (updateLiveUrl) {
-          updateLiveUrl(liveRoomUrl);
-        }
-      }
-    } else {
-      // 直播回放 打开对应的视频
-      const videoUrl = liveReplayUrl || liveRecordUrl;
-      liveRecordUrl && QFReactHelper.playVideo(videoUrl);
-    }
   }
 
-  renderItem({ item: { title, data } }) {
+  renderItem({item: {title, data}}) {
     return (
       <View>
         <View style={styles.sectionTitle}>
           <Text style={styles.sectionTitleText}>{title}</Text>
         </View>
         <View style={styles.listWrapper}>
-          {
-            data.map((dataItem, index) => (
-              <TouchableOpacity
-                style={styles.itemWrapper}
-                onPress={() => { this.handleClickItem(dataItem); }}
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-              >
-                <RenderItem isLive data={dataItem} />
-              </TouchableOpacity>
-            ))
-          }
+          {data.map((dataItem, index) => (
+            <TouchableOpacity
+              style={styles.itemWrapper}
+              onPress={() => {
+                this.handleClickItem(dataItem);
+              }}
+              key={index}>
+              <RenderItem isLive data={dataItem} />
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
     );
   }
 
   render() {
-    const { requestParams } = this.props;
+    const {requestParams} = this.props;
     return (
       <GeneralFlatList
         renderData={this.asyncData}
@@ -361,7 +322,7 @@ class LiveList extends PureComponent {
         wrapperStyle={styles.wrapperStyle}
         resDataTemplate="data.result"
         resTotalTemplate="data.result.liveReplayBroad.recordCount"
-        resPageSizeTemplates="data.result.liveReplayBroad.pageSize"
+        resPageSizeTemplate="data.result.liveReplayBroad.pageSize"
         resSuccessCodeTemplate="data.code"
         pageSize={1}
       />

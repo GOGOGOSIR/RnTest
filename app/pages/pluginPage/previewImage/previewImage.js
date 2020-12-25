@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {TouchableWithoutFeedback, StyleSheet, View, Image} from 'react-native';
 import PreviewImage from '../../../components/PreviewImage/PreviewImage';
-import GeneralFlatList from '../../../components/GeneralFlatList/GeneralFlatList';
+import GeneralFlatList from '../../../components/GeneralList/GeneralFlatList';
 import {getAsyncStorage} from '../../../utils/storage/index';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 
@@ -152,6 +152,8 @@ class previewImage extends PureComponent {
           data: {
             result: MOCK_LIST,
             totalCounts: 100,
+            status: 'C0000',
+            pageSize: 10,
           },
         });
       }, 800);
@@ -190,11 +192,11 @@ class previewImage extends PureComponent {
           flatListProps={{
             numColumns: 2,
             columnWrapperStyle: [styles.columnWrapper, {height: itemHeight}],
-            // getItemLayout: this._getItemLayout,
+            getItemLayout: this._getItemLayout,
           }}
           resDataTemplate="data.result"
           resTotalTemplate="data.totalCounts"
-          pageSize={9}
+          resPageSizeTemplate="data.pageSize"
           ref={(ref) => (this.generalFlatList = ref)}
           refreshControlConfig={{
             colors: ['#3eaf7c'],

@@ -1,5 +1,15 @@
-import React, {PureComponent} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/prop-types */
+import React, { PureComponent } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 class CurstomTabBar extends PureComponent {
@@ -22,6 +32,7 @@ class CurstomTabBar extends PureComponent {
     tabBarHeight: 44,
     tabBarContainerPaddingHorizontal: 0,
     tabBarContainerStyle: {},
+    tabItemStyle: {},
     activeTextColor: '#000000',
     defaultTextColor: '#666666',
     showTabUnderline: true,
@@ -33,44 +44,57 @@ class CurstomTabBar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
-    this._renderBottomSlideBar = this._renderBottomSlideBar.bind(this);
-    this._renderItem = this._renderItem.bind(this);
+    this.renderBottomSlideBar = this.renderBottomSlideBar.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+  }
+
+  // 计算scaleX的interpolate
+  getScaleXInterpolate (numberOfTabs) {
+    const inputRange = [];
+    const outputRange = [];
+    for (let i = 0; i <= numberOfTabs - 1; i += 0.5) {
+      const scaleXValue = i % 1 === 0 ? 1 : 1.5;
+      inputRange.push(i);
+      outputRange.push(scaleXValue);
+    }
+
+    return {
+      inputRange,
+      outputRange,
+    };
   }
 
   // 渲染底部滚动条
-  _renderBottomSlideBar() {
+  renderBottomSlideBar() {
     const {
       showTabUnderline,
       containerWidth,
       tabs,
       tabUnderlineWidth,
       tabBarContainerPaddingHorizontal,
+      scrollValue,
     } = this.props;
     const numberOfTabs = tabs.length;
-    const tabWidth =
-      (containerWidth - tabBarContainerPaddingHorizontal * 2) / numberOfTabs;
+    const tabWidth = (containerWidth - tabBarContainerPaddingHorizontal * 2) / numberOfTabs;
     const offsetX = (tabWidth - tabUnderlineWidth) / 2;
-    const translateX = this.props.scrollValue.interpolate({
+    const translateX = scrollValue.interpolate({
       inputRange: [0, 1],
       outputRange: [0, tabWidth],
     });
-    const scaleX = this.props.scrollValue.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [1, 1.5, 1],
-    });
+    const scaleX = scrollValue.interpolate(this.getScaleXInterpolate(numberOfTabs));
     return showTabUnderline ? (
       <Animated.View
         style={[
           styles.tabUnderline(this.props, offsetX),
           {
-            transform: [{translateX}, {scaleX}],
+            transform: [{ translateX }, { scaleX }],
           },
         ]}
       />
     ) : null;
   }
 
-  _renderItem(name, page, isActive, goToPage) {
+  renderItem(name, page, isActive, goToPage) {
     const {
       tabBarHeight,
       tabItemStyle,
@@ -82,16 +106,13 @@ class CurstomTabBar extends PureComponent {
       <TouchableOpacity
         key={name}
         onPress={() => {
-          console.log(goToPage, 'goToPage=====');
           goToPage(page);
         }}
-        style={[styles.tabItem(tabBarHeight), tabItemStyle]}>
+        style={[styles.tabItem(tabBarHeight), tabItemStyle]}
+      >
         <Text
-          style={styles.tabBarText(
-            isActive,
-            activeTextColor,
-            defaultTextColor,
-          )}>
+          style={styles.tabBarText(isActive, activeTextColor, defaultTextColor)}
+        >
           {name}
         </Text>
       </TouchableOpacity>
@@ -115,13 +136,14 @@ class CurstomTabBar extends PureComponent {
           style={[
             styles.tabBarWrapper(tabBarContainerPaddingHorizontal),
             tabBarContainerStyle,
-          ]}>
+          ]}
+        >
           {tabs.map((name, page) => {
             const isActive = activeTab === page;
-            const renderItem = renderTab ? renderTab : this._renderItem;
+            const renderItem = renderTab || this.renderItem;
             return renderItem(name, page, isActive, goToPage);
           })}
-          {this._renderBottomSlideBar()}
+          {this.renderBottomSlideBar()}
         </View>
         {renderTabBarFooterComponent ? renderTabBarFooterComponent() : null}
       </View>
@@ -144,13 +166,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   }),
-  tabBarText: (isActive, activeTextColor, defaultTextColor) => {
-    return {
-      color: isActive ? activeTextColor : defaultTextColor,
-      fontWeight: '600',
-      fontSize: 17,
-    };
-  },
+  tabBarText: (isActive, activeTextColor, defaultTextColor) => ({
+    color: isActive ? activeTextColor : defaultTextColor,
+    fontWeight: '600',
+    fontSize: 17,
+  }),
   tabUnderline: (
     {
       tabUnderlineWidth,
@@ -159,17 +179,15 @@ const styles = StyleSheet.create({
       tabBarContainerPaddingHorizontal,
     },
     offsetX,
-  ) => {
-    return {
-      position: 'absolute',
-      width: tabUnderlineWidth,
-      height: tabUnderlineHeight,
-      borderRadius: tabUnderlineHeight / 2,
-      backgroundColor: tabUnderlineColor,
-      bottom: 0,
-      marginLeft: offsetX + tabBarContainerPaddingHorizontal,
-    };
-  },
+  ) => ({
+    position: 'absolute',
+    width: tabUnderlineWidth,
+    height: tabUnderlineHeight,
+    borderRadius: tabUnderlineHeight / 2,
+    backgroundColor: tabUnderlineColor,
+    bottom: 0,
+    marginLeft: offsetX + tabBarContainerPaddingHorizontal,
+  }),
 });
 
 export default CurstomTabBar;

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
-import GeneralFlatList from '../../components/GeneralFlatList/GeneralFlatList';
+import GeneralFlatList from '../../components/GeneralList/GeneralFlatList';
 import Icon from '../../components/Icon/Icon';
 class componentPage extends PureComponent {
   constructor(props) {

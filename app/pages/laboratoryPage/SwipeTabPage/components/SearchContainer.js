@@ -1,5 +1,13 @@
 import React, {PureComponent} from 'react';
-import {View, Text, TextInput, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  DeviceEventEmitter,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from '../../../../components/Icon/Icon';
 
@@ -11,7 +19,8 @@ export default class SearchContainer extends PureComponent {
     returnKeyType: PropTypes.string,
     textAlign: PropTypes.string,
     containerStyle: PropTypes.object,
-    handleChange: PropTypes.func,
+    handleSearch: PropTypes.func,
+    cityName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -21,19 +30,58 @@ export default class SearchContainer extends PureComponent {
     returnKeyType: 'search',
     textAlign: 'left',
     containerStyle: {},
+    handleSearch: null,
+    cityName: '',
   };
 
   constructor(props) {
     super(props);
+    this.state = {
+      searchValue: '',
+      cityName: '',
+      cityCode: '',
+    };
+    this.handleChangeText = this.handleChangeText.bind(this);
     this.onSubmitEditing = this.onSubmitEditing.bind(this);
   }
 
+  componentDidMount() {
+    this.initCityData();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {cityName} = this.props;
+    if (prevProps.cityName !== cityName) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        cityName,
+      });
+    }
+  }
+
+  // 初始化城市数据（取当前登入用户所在城市信息）
+  initCityData() {
+    this.setState({
+      cityName: '深圳',
+      cityCode: '',
+    });
+  }
+
+  handleChangeText(text) {
+    this.setState({searchValue: text.trim()});
+  }
+
+  // 处理用户点击搜素按钮事件
   onSubmitEditing({nativeEvent: {text}}) {
-    const {handleChange} = this.props;
-    handleChange && handleChange(text.trim());
+    const {handleSearch} = this.props;
+    const {cityCode, cityName} = this.state;
+    if (handleSearch) {
+      handleSearch({cityCode, cityName, searchValue: text.trim()});
+    }
   }
 
   render() {
+    const {cityName, searchValue} = this.state;
     const {
       placeholder,
       editable,
@@ -46,13 +94,15 @@ export default class SearchContainer extends PureComponent {
     return (
       <View style={[styles.wrapper, containerStyle]}>
         <View style={styles.searchContainer}>
-          <View style={styles.searchCityWrapper}>
-            <Text style={styles.cityName}>深圳</Text>
+          <TouchableOpacity style={styles.searchCityWrapper}>
+            <Text style={styles.cityName}>{cityName}</Text>
             <Icon name="show_more" size={12} color="#999" />
-          </View>
+          </TouchableOpacity>
           <Icon name="search" size={12} color="#333" />
           <TextInput
             style={styles.textInput}
+            value={searchValue}
+            onChangeText={this.handleChangeText}
             onSubmitEditing={this.onSubmitEditing}
             editable={editable}
             placeholder={placeholder}
@@ -96,6 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#333',
     fontWeight: '500',
+    marginRight: 4,
   },
   textInput: {
     flex: 1,
