@@ -182,6 +182,12 @@ class previewImage extends PureComponent {
     return {length: itemHeight, offset: itemHeight * index, index};
   }
 
+  formateResData = (res) => res.data.result || [];
+
+  getTotalValue = (res) => res.data.totalCounts || 0;
+
+  getPageSizeValue = (res) => res.data.pageSize || 0;
+
   render() {
     const {itemHeight, activeIndex, imageUrls} = this.state;
     return (
@@ -194,9 +200,9 @@ class previewImage extends PureComponent {
             columnWrapperStyle: [styles.columnWrapper, {height: itemHeight}],
             getItemLayout: this._getItemLayout,
           }}
-          resDataTemplate="data.result"
-          resTotalTemplate="data.totalCounts"
-          resPageSizeTemplate="data.pageSize"
+          formateResData={this.formateResData}
+          getTotalValue={this.getTotalValue}
+          getPageSizeValue={this.getPageSizeValue}
           ref={(ref) => (this.generalFlatList = ref)}
           refreshControlConfig={{
             colors: ['#3eaf7c'],

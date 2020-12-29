@@ -9,6 +9,7 @@ import ImmersivePage from '../pages/laboratoryPage/ImmersivePage/ImmersivePage';
 import SwipeTabPage from '../pages/laboratoryPage/SwipeTabPage/SwipeTabPage';
 // 自定义组件
 import IconPage from '../pages/componentPage/IconPage/IconPage';
+import WaterFullPage from '../pages/componentPage/WaterFullPage/WaterFullPage';
 // 数据
 import FormPage from '../pages/dataPage/FormPage/FormPage';
 
@@ -45,6 +46,11 @@ const viewRoutes = [
     options: {
       ...ScaleFromCenterAndroid,
     },
+  },
+  {
+    name: 'WaterFullPage',
+    screen: WaterFullPage,
+    type: 'view',
   },
   {
     name: 'FormPage',

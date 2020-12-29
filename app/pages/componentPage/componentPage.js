@@ -12,6 +12,10 @@ class componentPage extends PureComponent {
           label: 'icon',
           path: 'IconPage',
         },
+        {
+          label: '瀑布流组件',
+          path: 'WaterFullPage',
+        },
       ],
     };
     this._renderItem = this._renderItem.bind(this);

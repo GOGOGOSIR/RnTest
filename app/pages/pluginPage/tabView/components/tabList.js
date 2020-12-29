@@ -55,6 +55,12 @@ export default class tabList extends Component {
     );
   }
 
+  formateResData = (res) => res.data.result || [];
+
+  getTotalValue = (res) => res.data.totalCounts || 0;
+
+  getPageSizeValue = (res) => res.data.pageSize || 0;
+
   render() {
     const {list} = this.state;
     console.log(list);
@@ -62,9 +68,9 @@ export default class tabList extends Component {
       <GeneralFlatList
         renderData={this.mockAsyncData}
         renderItem={this.renderListItem}
-        resDataTemplate="data.result"
-        resTotalTemplate="data.totalCounts"
-        resPageSizeTemplate="data.pageSize"
+        formateResData={this.formateResData}
+        getTotalValue={this.getTotalValue}
+        getPageSizeValue={this.getPageSizeValue}
       />
     );
   }

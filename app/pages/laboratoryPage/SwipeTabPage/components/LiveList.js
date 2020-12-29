@@ -228,7 +228,17 @@ class LiveList extends PureComponent {
     super(props);
     this.state = {};
     this.renderItem = this.renderItem.bind(this);
-    this.formateResFunc = this.formateResFunc.bind(this);
+    this.formateResData = this.formateResData.bind(this);
+    this.getTotalValue = this.getTotalValue.bind(this);
+    this.getPageSizeValue = this.getPageSizeValue.bind(this);
+  }
+
+  getTotalValue(res) {
+    return res.data.result.liveReplayBroad.recordCount || 0;
+  }
+
+  getPageSizeValue(res) {
+    return res.data.result.liveReplayBroad.pageSize || 0;
   }
 
   // 模拟数据
@@ -238,7 +248,7 @@ class LiveList extends PureComponent {
         resolve({
           data: {
             result: JSON.parse(JSON.stringify(MOCK)),
-            code: 'C0000',
+            status: 'C0000',
           },
         });
       }, 1800);
@@ -246,7 +256,8 @@ class LiveList extends PureComponent {
   }
 
   // 格式化接口返回的数据
-  formateResFunc(data) {
+  formateResData(res) {
+    const data = res.data.result;
     const liveNameMap = {
       liveAppointBroad: '直播预约',
       liveBroad: '直播中',
@@ -260,17 +271,19 @@ class LiveList extends PureComponent {
         ...item,
         sortType: key,
       }));
-      result.push({
-        title,
-        sortType: key,
-        data: list,
-      });
+      if (list.length) {
+        result.push({
+          title,
+          sortType: key,
+          data: list,
+        });
+      }
     }
     return result;
   }
 
   // 处理加载更多的数据合并操作
-  mergeDataFunc(prevData, data) {
+  handleMergeData(prevData, data) {
     if (!prevData.length) {
       return data;
     }
@@ -317,14 +330,11 @@ class LiveList extends PureComponent {
         renderData={this.asyncData}
         requestParams={requestParams}
         renderItem={this.renderItem}
-        mergeDataFunc={this.mergeDataFunc}
-        formateResFunc={this.formateResFunc}
+        handleMergeData={this.handleMergeData}
         wrapperStyle={styles.wrapperStyle}
-        resDataTemplate="data.result"
-        resTotalTemplate="data.result.liveReplayBroad.recordCount"
-        resPageSizeTemplate="data.result.liveReplayBroad.pageSize"
-        resSuccessCodeTemplate="data.code"
-        pageSize={1}
+        formateResData={this.formateResData}
+        getTotalValue={this.getTotalValue}
+        getPageSizeValue={this.getPageSizeValue}
       />
     );
   }

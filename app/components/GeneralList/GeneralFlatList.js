@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import PropTypes from 'prop-types';
-import {validateType} from '../../utils/validate/index';
 import StatusView from '../StatusView/StatusView';
 import ListFooter from './ListFooter';
 
@@ -9,13 +8,12 @@ class GeneralFlatList extends PureComponent {
   static propTypes = {
     renderData: PropTypes.oneOfType([PropTypes.func, PropTypes.array]), // 渲染数据（可以使数组或是Promise函数）
     requestParams: PropTypes.object, // 接口的请求参数
-    resDataTemplate: PropTypes.string, // 列表数据的解构的字符串的集合
-    resTotalTemplate: PropTypes.string, // 列表数据总数的解构的字符串的集合
-    resSuccessCodeTemplate: PropTypes.string, // 列表数据请求成功的code码的解构的字符串的集合
-    resPageSizeTemplate: PropTypes.string, // pageSize解构的字符串
     resSuccessCodeValue: PropTypes.string, // 数据请求成功的code码
-    formateResFunc: PropTypes.func, // 格式化res结果的函数
-    mergeDataFunc: PropTypes.func, // 处理数据合并的函数（应用场景：v2.37.0直播聚合页需求，需要特殊处理数据合并的逻辑）
+    formateResData: PropTypes.func, // 格式化res结果的函数
+    getResCodeValue: PropTypes.func, // 获取res状态码
+    getTotalValue: PropTypes.func, // 获取总条数的值
+    getPageSizeValue: PropTypes.func, // 获取单页展示的条数
+    handleMergeData: PropTypes.func, // 处理数据合并的函数（应用场景：v2.37.0直播聚合页需求，需要特殊处理数据合并的逻辑）
     renderItem: PropTypes.elementType, // flatList的renderItem
     generalFlatListFooterComponent: PropTypes.func, // 自定义footer组件
     flatListProps: PropTypes.object, // 其他配置项
@@ -46,10 +44,14 @@ class GeneralFlatList extends PureComponent {
     loadMoreText: '加载数据中...',
     loadOverText: '没有更多数据了',
     resSuccessCodeValue: 'C0000',
-    resDataTemplate: 'data.result.items',
-    resTotalTemplate: 'data.result.pageCount',
-    resPageSizeTemplate: 'data.reults.pageSize',
-    resSuccessCodeTemplate: 'data.status',
+    // 格式化处理res的默认函数
+    formateResData: (res) => res.data.result.items || [],
+    // 获取请求返回的code码的默认函数
+    getResCodeValue: (res) => res.data.status || '',
+    // 获取列表总条数的默认函数
+    getTotalValue: (res) => res.data.result.pageCount || 0,
+    // 获取单页的展示条数的默认函数
+    getPageSizeValue: (res) => res.data.result.pageSize || 0,
   };
 
   constructor(props) {
@@ -111,31 +113,18 @@ class GeneralFlatList extends PureComponent {
     this.isToggleEndReached = true;
   }
 
-  // 解构出想要的数据
-  findEffectData(temp, data, defaultData) {
-    return !temp
-      ? defaultData
-      : temp
-          .split('.')
-          .reduce(
-            (resultData, currentData) => resultData[currentData] || defaultData,
-            data,
-          );
-  }
-
   // 获取渲染数据
   async getRenderList() {
     const {
       renderData,
-      resDataTemplate,
-      resTotalTemplate,
-      formateResFunc,
+      formateResData,
+      getResCodeValue,
+      getTotalValue,
       pullUp,
       requestParams,
       resSuccessCodeValue,
-      resSuccessCodeTemplate,
-      resPageSizeTemplate,
-      mergeDataFunc,
+      getPageSizeValue,
+      handleMergeData,
     } = this.props;
     let list = [];
     let status = '';
@@ -155,48 +144,19 @@ class GeneralFlatList extends PureComponent {
           const response = await res;
           console.log(response, '===response==');
           let data = null;
-          const resSuccessCode = this.findEffectData(
-            resSuccessCodeTemplate,
-            response,
-            '',
-          );
+          const resSuccessCode = getResCodeValue(response);
           if (resSuccessCodeValue === resSuccessCode) {
-            if (!resDataTemplate) {
-              data = response;
-            } else {
-              data = this.findEffectData(resDataTemplate, response, []);
-              if (formateResFunc && validateType(formateResFunc, 'Function')) {
-                data = formateResFunc(data);
-              }
-            }
-            if (resTotalTemplate && pullUp) {
-              this.totalCounts = this.findEffectData(
-                resTotalTemplate,
-                response,
-                0,
-              );
-            }
-            if (resPageSizeTemplate && pullUp) {
-              this.pageSize = this.findEffectData(
-                resPageSizeTemplate,
-                response,
-                0,
-              );
+            data = formateResData(response);
+            if (pullUp) {
+              this.totalCounts = getTotalValue(response);
+              this.pageSize = getPageSizeValue(response);
             }
             list = Array.isArray(data) ? data : [];
             // 判断是否还有更多数据
             if (pullUp) {
-              // list数量小于pageSize数，将其认定所有数据加载完成
-              this.hasMoreFlag = !(list.length < this.pageSize);
-              if (this.isLoadMore) {
-                // 如果当前累计数小于总数，将其认定所有数据加载完成
-                if (this.hasMoreFlag) {
-                  const currentTotal = this.pageSize * this.currentPage;
-                  console.log('load More');
-                  this.hasMoreFlag = this.totalCounts > currentTotal;
-                }
-                this.isLoadMore = false;
-              }
+              // 如果当前累计数小于总数，将其认定所有数据加载完成
+              const currentTotal = this.pageSize * this.currentPage;
+              this.hasMoreFlag = this.totalCounts > currentTotal;
             }
             !list.length && (status = 'no-data-found');
           } else {
@@ -205,6 +165,8 @@ class GeneralFlatList extends PureComponent {
         } catch (err) {
           status = 'network-error';
           console.log('err:', err);
+        } finally {
+          this.isLoadMore = false;
         }
       } else {
         list = Array.isArray(res) ? res : [];
@@ -212,11 +174,13 @@ class GeneralFlatList extends PureComponent {
       }
     }
     const prevRenderList = this.currentPage === 1 ? [] : this.state.renderList;
-    let mergeData = [...prevRenderList, ...list];
-    if (mergeDataFunc) {
+    let mergeData = [];
+    if (handleMergeData) {
       // 处理特殊的合并规则
-      mergeData = mergeDataFunc(prevRenderList, list);
+      mergeData = handleMergeData(prevRenderList, list);
       console.log(mergeData, '处理后的mergeData');
+    } else {
+      mergeData = [...prevRenderList, ...list];
     }
     if (this._isMounted) {
       this.setState({

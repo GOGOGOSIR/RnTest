@@ -219,7 +219,7 @@ class VideoList extends PureComponent {
       setTimeout(() => {
         resolve({
           data: {
-            code: 'C0000',
+            status: 'C0000',
             result: {
               items: JSON.parse(JSON.stringify(MOCK_LIST)),
               pageCount: 30,
@@ -259,10 +259,6 @@ class VideoList extends PureComponent {
           numColumns: 2,
           columnWrapperStyle: [styles.columnWrapper],
         }}
-        resDataTemplate="data.result.items"
-        resTotalTemplate="data.result.pageCount"
-        resSuccessCodeTemplate="data.code"
-        resPageSizeTemplate="data.result.pageSize"
         wrapperStyle={styles.wrapper}
       />
     );
