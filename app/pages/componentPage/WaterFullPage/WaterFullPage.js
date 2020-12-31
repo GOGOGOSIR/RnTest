@@ -121,8 +121,8 @@ class WaterFullPage extends PureComponent {
     );
   }
 
-  formateResFunc = (data) => {
-    return [data];
+  formateResData = (res) => {
+    return [res.data.result.items];
   };
 
   render() {
@@ -130,7 +130,7 @@ class WaterFullPage extends PureComponent {
       <GeneralFlatList
         renderData={this.asyncData}
         renderItem={this._renderItem}
-        formateResFunc={this.formateResFunc}
+        formateResData={this.formateResData}
         wrapperStyle={styles.wrapperStyle}
       />
     );

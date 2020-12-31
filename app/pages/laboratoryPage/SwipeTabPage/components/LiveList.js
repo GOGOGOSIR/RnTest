@@ -228,7 +228,7 @@ class LiveList extends PureComponent {
     super(props);
     this.state = {};
     this.renderItem = this.renderItem.bind(this);
-    this.formateResData = this.formateResData.bind(this);
+    this.formatResData = this.formatResData.bind(this);
     this.getTotalValue = this.getTotalValue.bind(this);
     this.getPageSizeValue = this.getPageSizeValue.bind(this);
   }
@@ -256,7 +256,7 @@ class LiveList extends PureComponent {
   }
 
   // 格式化接口返回的数据
-  formateResData(res) {
+  formatResData(res) {
     const data = res.data.result;
     const liveNameMap = {
       liveAppointBroad: '直播预约',
@@ -332,7 +332,7 @@ class LiveList extends PureComponent {
         renderItem={this.renderItem}
         handleMergeData={this.handleMergeData}
         wrapperStyle={styles.wrapperStyle}
-        formateResData={this.formateResData}
+        formatResData={this.formatResData}
         getTotalValue={this.getTotalValue}
         getPageSizeValue={this.getPageSizeValue}
       />

@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react';
-import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import PropTypes from 'prop-types';
 import StatusView from '../StatusView/StatusView';
 import ListFooter from './ListFooter';
@@ -9,7 +9,7 @@ class GeneralFlatList extends PureComponent {
     renderData: PropTypes.oneOfType([PropTypes.func, PropTypes.array]), // 渲染数据（可以使数组或是Promise函数）
     requestParams: PropTypes.object, // 接口的请求参数
     resSuccessCodeValue: PropTypes.string, // 数据请求成功的code码
-    formateResData: PropTypes.func, // 格式化res结果的函数
+    formatResData: PropTypes.func, // 格式化res结果的函数
     getResCodeValue: PropTypes.func, // 获取res状态码
     getTotalValue: PropTypes.func, // 获取总条数的值
     getPageSizeValue: PropTypes.func, // 获取单页展示的条数
@@ -45,13 +45,14 @@ class GeneralFlatList extends PureComponent {
     loadOverText: '没有更多数据了',
     resSuccessCodeValue: 'C0000',
     // 格式化处理res的默认函数
-    formateResData: (res) => res.data.result.items || [],
+    formatResData: (res) => (res.data.result && res.data.result.items) || [],
     // 获取请求返回的code码的默认函数
     getResCodeValue: (res) => res.data.status || '',
     // 获取列表总条数的默认函数
-    getTotalValue: (res) => res.data.result.pageCount || 0,
+    getTotalValue: (res) => (res.data.result && res.data.result.pageCount) || 0,
     // 获取单页的展示条数的默认函数
-    getPageSizeValue: (res) => res.data.result.pageSize || 0,
+    getPageSizeValue: (res) =>
+      (res.data.result && res.data.result.pageSize) || 0,
   };
 
   constructor(props) {
@@ -78,16 +79,16 @@ class GeneralFlatList extends PureComponent {
      * fix: Can't perform a React state update on an unmounted component
      * 当在componentDidMount请求数据还没有setState时,当用户退出页面，此时页面以卸载，此时异步请求在setState时就会出现内存泄漏
      */
-    this._isMounted = false;
+    this.canSetState = false;
   }
 
-  componentDidMount() {
+  componentDidMount () {
     console.log('GeneralFlatList componentDidMount');
-    this._isMounted = true;
+    this.canSetState = true;
     this.getRenderList();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.renderData !== prevProps.renderData) {
       console.log('GeneralFlatList componentDidUpdate');
       this.getRenderList();
@@ -104,20 +105,20 @@ class GeneralFlatList extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
+  componentWillUnmount () {
+    this.canSetState = false;
   }
 
   // 切换是否可以触发上拉加载更多事件的状态
-  handleToggleEndReached() {
+  handleToggleEndReached () {
     this.isToggleEndReached = true;
   }
 
   // 获取渲染数据
-  async getRenderList() {
+  async getRenderList () {
     const {
       renderData,
-      formateResData,
+      formatResData,
       getResCodeValue,
       getTotalValue,
       pullUp,
@@ -146,18 +147,16 @@ class GeneralFlatList extends PureComponent {
           let data = null;
           const resSuccessCode = getResCodeValue(response);
           if (resSuccessCodeValue === resSuccessCode) {
-            data = formateResData(response);
+            data = formatResData(response);
             if (pullUp) {
               this.totalCounts = getTotalValue(response);
               this.pageSize = getPageSizeValue(response);
-            }
-            list = Array.isArray(data) ? data : [];
-            // 判断是否还有更多数据
-            if (pullUp) {
+              // 判断是否还有更多数据
               // 如果当前累计数小于总数，将其认定所有数据加载完成
               const currentTotal = this.pageSize * this.currentPage;
               this.hasMoreFlag = this.totalCounts > currentTotal;
             }
+            list = Array.isArray(data) ? data : [];
             !list.length && (status = 'no-data-found');
           } else {
             status = 'request-failed';
@@ -182,7 +181,7 @@ class GeneralFlatList extends PureComponent {
     } else {
       mergeData = [...prevRenderList, ...list];
     }
-    if (this._isMounted) {
+    if (this.canSetState) {
       this.setState({
         renderList: mergeData,
         refreshStatus: false,
@@ -192,7 +191,7 @@ class GeneralFlatList extends PureComponent {
   }
 
   // 加载更多
-  loadMore() {
+  loadMore () {
     if (this.isToggleEndReached && this.hasMoreFlag && !this.isLoadMore) {
       this.isLoadMore = true;
       this.currentPage++;
@@ -201,7 +200,7 @@ class GeneralFlatList extends PureComponent {
   }
 
   // 下拉刷新列表
-  refreshList(isChangeRefreshStatus = true) {
+  refreshList (isChangeRefreshStatus = true) {
     console.log('refreshList');
     this.currentPage = 1;
     this.hasMoreFlag = true;
@@ -217,13 +216,8 @@ class GeneralFlatList extends PureComponent {
     }
   }
 
-  // 提供给外部获取数据的
-  getRenderListData() {
-    return JSON.parse(JSON.stringify(this.state.renderList));
-  }
-
   // 渲染footer组件
-  renderFooterComponent() {
+  renderFooterComponent () {
     const {
       generalFlatListFooterComponent,
       loadMoreText,
@@ -234,17 +228,17 @@ class GeneralFlatList extends PureComponent {
         {generalFlatListFooterComponent ? (
           generalFlatListFooterComponent(this.hasMoreFlag)
         ) : (
-          <ListFooter
-            hasMoreFlag={this.hasMoreFlag}
-            loadMoreText={loadMoreText}
-            loadOverText={loadOverText}
-          />
-        )}
+            <ListFooter
+              hasMoreFlag={this.hasMoreFlag}
+              loadMoreText={loadMoreText}
+              loadOverText={loadOverText}
+            />
+          )}
       </>
     );
   }
 
-  render() {
+  render () {
     const {
       renderItem,
       pullDown,
@@ -253,7 +247,7 @@ class GeneralFlatList extends PureComponent {
       wrapperStyle,
       refreshControlConfig,
     } = this.props;
-    const {renderList, status, refreshStatus} = this.state;
+    const { renderList, status, refreshStatus } = this.state;
     // flatList的props
     const listProps = {
       horizontal: false,
@@ -287,8 +281,8 @@ class GeneralFlatList extends PureComponent {
             ListFooterComponent={pullUp ? this.renderFooterComponent() : null}
           />
         ) : (
-          <StatusView status={status} />
-        )}
+            <StatusView status={status} />
+          )}
       </View>
     );
   }
