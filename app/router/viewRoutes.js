@@ -1,4 +1,4 @@
-import {ScaleFromCenterAndroid} from '@react-navigation/stack/src/TransitionConfigs/TransitionPresets';
+import { ScaleFromCenterAndroid } from '@react-navigation/stack/src/TransitionConfigs/TransitionPresets';
 // 三方插件
 import SnapCarouselPage from '../pages/pluginPage/snapCarousel/snapCarousel';
 import TabViewPage from '../pages/pluginPage/tabView/tabView';
@@ -10,6 +10,7 @@ import SwipeTabPage from '../pages/laboratoryPage/SwipeTabPage/SwipeTabPage';
 // 自定义组件
 import IconPage from '../pages/componentPage/IconPage/IconPage';
 import WaterFullPage from '../pages/componentPage/WaterFullPage/WaterFullPage';
+import ToastPage from '../pages/componentPage/ToastPage/ToastPage'
 // 数据
 import FormPage from '../pages/dataPage/FormPage/FormPage';
 
@@ -60,6 +61,11 @@ const viewRoutes = [
   {
     name: 'SwipeTabPage',
     screen: SwipeTabPage,
+    type: 'view',
+  },
+  {
+    name: 'ToastPage',
+    screen: ToastPage,
     type: 'view',
   },
 ];

@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import React, { PureComponent } from 'react';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView/CustomSafeAreaView';
 import GeneralFlatList from '../../components/GeneralList/GeneralFlatList';
 import Icon from '../../components/Icon/Icon';
@@ -16,12 +16,16 @@ class componentPage extends PureComponent {
           label: '瀑布流组件',
           path: 'WaterFullPage',
         },
+        {
+          label: 'toast',
+          path: 'ToastPage',
+        },
       ],
     };
     this._renderItem = this._renderItem.bind(this);
   }
 
-  _renderItem({item}) {
+  _renderItem ({ item }) {
     return (
       <TouchableOpacity onPress={() => this.handleNavigateTo(item.path)}>
         <View style={styles.listItemWrapper}>
@@ -32,15 +36,15 @@ class componentPage extends PureComponent {
     );
   }
 
-  handleNavigateTo(path) {
+  handleNavigateTo (path) {
     if (!path) {
       return;
     }
     this.props.navigation.navigate(path);
   }
 
-  render() {
-    const {list} = this.state;
+  render () {
+    const { list } = this.state;
     return (
       <GeneralFlatList
         renderData={list}
