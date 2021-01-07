@@ -1,40 +1,65 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, AppRegistry } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from '../../../components/Toast/Toast';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView/CustomSafeAreaView';
 
 const ToastPage = (props) => {
   const toastRef = useRef(null);
-  let toast1 = null
 
-  useEffect(() => {
-    console.log('useEffect')
-    // console.log('toast', toastRef.current)
-  }, [])
+  const handleNormalToast = () => {
+    toastRef.current.show({
+      message: 'hello world',
+      position: 'center'
+    })
+  }
 
-  const handleCenterToast = () => {
-    console.log('toast', toastRef.current)
-    toastRef.current.show()
+  const handleManualToast = () => {
+    toastRef.current.show({
+      message: () => {
+        return (
+          <View style={styles.loadingWrapper}>
+            <ActivityIndicator size="small" color="#fff" />
+            <Text style={styles.loadingText}>数据提交中...</Text>
+          </View>
+        )
+      },
+      position: 'bottom',
+      duration: 0
+    })
+
+    setTimeout(() => {
+      console.log('手动关闭')
+      toastRef.current.hide()
+    }, 3000)
   }
 
   return (<View style={styles.wrapper}>
-    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']}>
-      <TouchableOpacity style={styles.linearGradient} onPress={handleCenterToast}>
+    <LinearGradient style={styles.buttomWrapper} colors={['#4c669f', '#3b5998', '#192f6a']}>
+      <TouchableOpacity style={styles.linearGradient} onPress={handleNormalToast}>
         <Text style={styles.buttonText}>
-          打开中间的Toast
+          自动关闭Toast
         </Text>
       </TouchableOpacity>
     </LinearGradient>
-    <Toast ref={toastRef} message={'212221'} />
+    <LinearGradient style={styles.buttomWrapper} colors={['red', 'orange']}>
+      <TouchableOpacity style={styles.linearGradient} onPress={handleManualToast}>
+        <Text style={styles.buttonText}>
+          手动关闭Toast
+        </Text>
+      </TouchableOpacity>
+    </LinearGradient>
+    <Toast ref={toastRef} />
   </View>)
 }
 
 const styles = StyleSheet.create({
+  buttomWrapper: {
+    marginBottom: 10,
+  },
   wrapper: {
     flex: 1,
     position: 'relative',
-    // backgroundColor: 'red'
   },
   linearGradient: {
     paddingLeft: 15,
@@ -49,6 +74,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     backgroundColor: 'transparent',
   },
+  loadingWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#fff',
+    marginLeft: 8,
+  }
 })
 
 export default CustomSafeAreaView()(ToastPage);

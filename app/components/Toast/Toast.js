@@ -1,29 +1,32 @@
-import React, { useState, useMemo, useImperativeHandle, forwardRef } from 'react';
-import { StyleSheet, Animated, View, Text } from 'react-native';
+import React, { useState, useMemo, useImperativeHandle, forwardRef, useRef, isValidElement } from 'react';
+import { StyleSheet, Animated, View, Text, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 
 const Toast = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState('');
+  const [position, setPosition] = useState('center');
+
+  const timer = useRef(null);
+  const opacityRef = useRef(new Animated.Value(0));
 
   const maskStyle = useMemo(() => {
-    const { maskBackgroundColor, position } = props;
+    const { maskBackgroundColor } = props;
     const positionMap = {
       'center': 'center',
       'top': 'flex-start',
       'bottom': 'flex-end',
     }
-    console.log('maskStyle')
 
     return {
       backgroundColor: maskBackgroundColor,
       justifyContent: positionMap[position],
       display: visible ? 'flex' : 'none',
     }
-  }, [props.maskBackgroundColor, props.position, visible]);
+  }, [props.maskBackgroundColor, position, visible]);
 
   const containerStyle = useMemo(() => {
     const { messageContainerBackgroundColor } = props;
-    console.log('containerStyle')
 
     return {
       backgroundColor: messageContainerBackgroundColor,
@@ -32,7 +35,6 @@ const Toast = forwardRef((props, ref) => {
 
   const textStyle = useMemo(() => {
     const { messageTextColor, messageTextFontSize } = props;
-    console.log('textStyle')
 
     return {
       color: messageTextColor,
@@ -42,45 +44,69 @@ const Toast = forwardRef((props, ref) => {
 
   // 暴露给父组件使用的方法
   useImperativeHandle(ref, () => ({
-    show: () => {
-      console.log(ref);
-      open();
+    show: (data) => {
+      open(data);
     },
     hide: () => {
       close();
     }
   }));
 
-  const open = () => {
-    const { duration } = props;
+  const open = ({ message, position = 'center', duration = 1500 }) => {
+    if (message) {
+      if (typeof message === 'function') {
+        setMessage({ render: message });
+      } else {
+        setMessage(message)
+      }
+    }
+    setPosition(position);
     setVisible(true);
+    Animated.timing(opacityRef.current, {
+      toValue: 1,
+      easing: Easing.bezier(0.25, 1, 0.5, 1),
+      useNativeDriver: true,
+    }).start()
+    if (timer.current) {
+      clearTimeout(timer.current);
+      timer.current = null;
+    }
     if (duration) {
-      console.log('close')
-      setTimeout(close, duration);
+      // console.log('close')
+      timer.current = setTimeout(() => {
+        close();
+      }, duration);
     }
   }
 
   const close = () => {
-    setVisible(false);
+    Animated.timing(opacityRef.current, {
+      toValue: 0,
+      easing: Easing.bezier(0.25, 1, 0.5, 1),
+      useNativeDriver: true,
+    }).start(() => {
+      setVisible(false);
+    })
   }
 
   return (
     <View style={[styles.toastMask, maskStyle]} pointerEvents="auto">
-      <Animated.View style={[styles.toastTextContainer, containerStyle]}>
-        <Text style={textStyle}>{props.message}</Text>
+      <Animated.View style={[styles.toastTextContainer, containerStyle, { opacity: opacityRef.current }]}>
+        {
+          typeof message === 'object' && message.render ? message.render() : (
+            <Text style={textStyle}>{message}</Text>
+          )
+        }
       </Animated.View>
     </View>
   )
 });
 
 Toast.propTypes = {
-  message: PropTypes.string.isRequired,
   maskBackgroundColor: PropTypes.string,
   messageTextColor: PropTypes.string,
   messageTextFontSize: PropTypes.number,
   messageContainerBackgroundColor: PropTypes.string,
-  position: PropTypes.oneOf(['center', 'top', 'bottom']),
-  duration: PropTypes.number,
 }
 
 Toast.defaultProps = {
@@ -88,8 +114,6 @@ Toast.defaultProps = {
   messageTextColor: '#ffffff',
   messageContainerBackgroundColor: 'rgba(0,0,0,0.8)',
   messageTextFontSize: 15,
-  position: 'center',
-  duration: 1500,
 }
 
 const styles = StyleSheet.create({
@@ -101,13 +125,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingVertical: 15,
+    paddingVertical: 20,
   },
   toastTextContainer: {
     paddingHorizontal: 10,
     borderRadius: 4,
     paddingVertical: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
   }
 });
 
