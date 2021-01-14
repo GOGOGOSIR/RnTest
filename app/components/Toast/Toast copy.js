@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useImperativeHandle, forwardRef, useRef, Fragment } from 'react';
+import React, { useState, useMemo, useImperativeHandle, forwardRef, useRef } from 'react';
 import { StyleSheet, Animated, View, Text, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -89,7 +89,7 @@ const Toast = forwardRef((props, ref) => {
   }
 
   return (
-    <Fragment>
+    <>
       {
         visible ? (<View style={[styles.toastMask, maskStyle]} pointerEvents="auto">
           <Animated.View style={[styles.toastTextContainer, containerStyle, { opacity: opacityRef.current }]}>
@@ -101,7 +101,7 @@ const Toast = forwardRef((props, ref) => {
           </Animated.View>
         </View>) : null
       }
-    </Fragment>
+    </>
   )
 });
 
@@ -113,7 +113,7 @@ Toast.propTypes = {
 }
 
 Toast.defaultProps = {
-  maskBackgroundColor: 'rgba(255,255,255,0)',
+  maskBackgroundColor: 'red',
   messageTextColor: '#ffffff',
   messageContainerBackgroundColor: 'rgba(0,0,0,0.8)',
   messageTextFontSize: 15,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   toastTextContainer: {
     paddingHorizontal: 10,
     borderRadius: 4,
-    paddingVertical: 8,
+    paddingVertical: 5,
     alignSelf: 'center',
   }
 });

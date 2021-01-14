@@ -112,6 +112,7 @@ class GeneralFlatList extends PureComponent {
   // 切换是否可以触发上拉加载更多事件的状态
   handleToggleEndReached () {
     this.isToggleEndReached = true;
+    console.log(this.isToggleEndReached, '====this.isToggleEndReached cha1111nge====')
   }
 
   // 获取渲染数据
@@ -192,6 +193,7 @@ class GeneralFlatList extends PureComponent {
 
   // 加载更多
   loadMore () {
+    console.log('校验loadMore是否触发', this.isToggleEndReached, this.hasMoreFlag, this.isLoadMore)
     if (this.isToggleEndReached && this.hasMoreFlag && !this.isLoadMore) {
       this.isLoadMore = true;
       this.currentPage++;
@@ -251,14 +253,14 @@ class GeneralFlatList extends PureComponent {
     // flatList的props
     const listProps = {
       horizontal: false,
-      onEndReachedThreshold: 0.1,
+      onEndReachedThreshold: 0.01,
       showsVerticalScrollIndicator: false,
       keyExtractor: (item, index) => index.toString(),
       ...flatListProps,
     };
     if (pullUp) {
       listProps.onEndReached = this.loadMore;
-      listProps.onMomentumScrollBegin = this.handleToggleEndReached;
+      listProps.onScrollBeginDrag = this.handleToggleEndReached;
     }
     if (pullDown) {
       listProps.refreshControl = (
