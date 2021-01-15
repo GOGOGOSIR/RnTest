@@ -113,7 +113,7 @@ Toast.propTypes = {
 }
 
 Toast.defaultProps = {
-  maskBackgroundColor: 'rgba(255,255,255,0)',
+  maskBackgroundColor: 'rgba(255,255,255,1)',
   messageTextColor: '#ffffff',
   messageContainerBackgroundColor: 'rgba(0,0,0,0.8)',
   messageTextFontSize: 15,
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     zIndex: 999,
     elevation: 999,
     top: 0,
-    bottom: 0,
     left: 0,
+    bottom: 0,
     right: 0,
     paddingVertical: 20,
   },

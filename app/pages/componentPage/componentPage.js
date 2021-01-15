@@ -20,6 +20,10 @@ class componentPage extends PureComponent {
           label: 'toast',
           path: 'ToastPage',
         },
+        {
+          label: 'dialog',
+          path: 'DialogPage',
+        },
       ],
     };
     this._renderItem = this._renderItem.bind(this);

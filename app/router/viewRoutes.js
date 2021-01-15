@@ -10,7 +10,8 @@ import SwipeTabPage from '../pages/laboratoryPage/SwipeTabPage/SwipeTabPage';
 // 自定义组件
 import IconPage from '../pages/componentPage/IconPage/IconPage';
 import WaterFullPage from '../pages/componentPage/WaterFullPage/WaterFullPage';
-import ToastPage from '../pages/componentPage/ToastPage/ToastPage'
+import ToastPage from '../pages/componentPage/ToastPage/ToastPage';
+import DialogPage from '../pages/componentPage/DialogPage/DialogPage';
 // 数据
 import FormPage from '../pages/dataPage/FormPage/FormPage';
 
@@ -66,6 +67,11 @@ const viewRoutes = [
   {
     name: 'ToastPage',
     screen: ToastPage,
+    type: 'view',
+  },
+  {
+    name: 'DialogPage',
+    screen: DialogPage,
     type: 'view',
   },
 ];
