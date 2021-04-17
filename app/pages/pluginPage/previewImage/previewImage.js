@@ -200,7 +200,7 @@ class previewImage extends PureComponent {
             columnWrapperStyle: [styles.columnWrapper, {height: itemHeight}],
             getItemLayout: this._getItemLayout,
           }}
-          formateResData={this.formateResData}
+          formatResData={this.formateResData}
           getTotalValue={this.getTotalValue}
           getPageSizeValue={this.getPageSizeValue}
           ref={(ref) => (this.generalFlatList = ref)}

@@ -68,7 +68,7 @@ export default class tabList extends Component {
       <GeneralFlatList
         renderData={this.mockAsyncData}
         renderItem={this.renderListItem}
-        formateResData={this.formateResData}
+        formatResData={this.formateResData}
         getTotalValue={this.getTotalValue}
         getPageSizeValue={this.getPageSizeValue}
       />
