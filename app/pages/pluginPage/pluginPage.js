@@ -24,6 +24,10 @@ class pluginPage extends PureComponent {
           label: 'croperImage',
           path: 'CroperImagePage',
         },
+        {
+          label: 'normalDragPage',
+          path: 'NormalDragPage',
+        },
       ],
     };
     this.renderListItem = this.renderListItem.bind(this);

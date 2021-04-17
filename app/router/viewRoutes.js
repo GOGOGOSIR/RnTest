@@ -4,6 +4,7 @@ import SnapCarouselPage from '../pages/pluginPage/snapCarousel/snapCarousel';
 import TabViewPage from '../pages/pluginPage/tabView/tabView';
 import PreviewImagePage from '../pages/pluginPage/previewImage/previewImage';
 import CroperImagePage from '../pages/pluginPage/croperImage/croperImage';
+import NormalDragPage from '../pages/pluginPage/dragPage/normal';
 // 实验室
 import ImmersivePage from '../pages/laboratoryPage/ImmersivePage/ImmersivePage';
 import SwipeTabPage from '../pages/laboratoryPage/SwipeTabPage/SwipeTabPage';
@@ -34,6 +35,11 @@ const viewRoutes = [
   {
     name: 'CroperImagePage',
     screen: CroperImagePage,
+    type: 'view',
+  },
+  {
+    name: 'NormalDragPage',
+    screen: NormalDragPage,
     type: 'view',
   },
   {

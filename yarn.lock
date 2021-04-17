@@ -6688,6 +6688,11 @@ react-native-bootsplash@^3.1.2:
     fs-extra "^9.0.1"
     jimp "^0.16.1"
 
+react-native-drag-sort@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-drag-sort/-/react-native-drag-sort-2.4.2.tgz#bf27a70f80b59d6f77e3caa2160fb0426a3f8627"
+  integrity sha512-7f74endMVpYdxXsOY20Z8SfAy7HcLmmFWvYy9RrfzyZGnXhv3VjIMkMeSoOdBRJO4jRjaZSNIW6GdTE49bhuNg==
+
 react-native-gesture-handler@^1.8.0:
   version "1.8.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz"
